@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <link rel="icon" type="image/x-icon" href="logok.PNG">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Insurance Services</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="slider">
+            <div class="slides">
+                <div class="slide" style="background-image: url('car1.jpg');"></div>
+                <div class="slide" style="background-image: url('car2.jpg');"></div>
+                <div class="slide" style="background-image: url('car3.jpg');"></div>
+            </div>
+            <button id="prev-btn" class="arrow-btn" aria-label="Previous slide"></button>
+            <button id="next-btn" class="arrow-btn" aria-label="Next slide"></button>
+            <div class="overlay">
+                <h1>Kurd Car Insurance</h1>
+                <p>Drive with peace of mind</p>
+                <!-- Invisible Arrow Buttons to change background -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Move the navigation bar to the top and add Sign-In button -->
+    <nav>
+        <div class="nav-container">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="signin-btn" onclick="window.location.href='login.html'">Sign In</button>
+
+            </a>
+        </div>
+    </nav>
+    <section id="home">
+        <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-left: -200px;">
+            <img src="logok.PNG" alt="Logo" style="width: 200px; margin-right: 20px;">
+            <div>
+                <h2>Welcome to Our Car Insurance Services</h2>
+                <p>We provide affordable and comprehensive car insurance plans tailored to your needs.</p>
+                <a href="#contact" class="btn">Get a Quote</a>
+                <a href="formfill.html" class="btn">Get a Subscription</a>
+            </div>
+        </div>
+    </section>
+    
+    
+
+    <section id="services">
+        <h2>Our Services</h2>
+        <div class="service-container">
+            <div class="service-card">
+                <img src="comprehensive.jpg" alt="Comprehensive Coverage">
+                <h3>Comprehensive Coverage</h3>
+                <p>Protects against theft, accidents, and damages.</p>
+            </div>
+            <div class="service-card">
+                <img src="third-party1.jpg" alt="Third-Party Insurance">
+                <h3>Third-Party Insurance</h3>
+                <p>Covers liabilities for damages caused to others.</p>
+            </div>
+            <div class="service-card">
+                <img src="roadside1.jpg" alt="Roadside Assistance">
+                <h3>Roadside Assistance</h3>
+                <p>24/7 support for breakdowns and emergencies.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-us">
+        <div class="container">
+            <div class="about-text">
+                <h2>About Us</h2>
+                <div class="about-text-box">
+                    <p>At Kurd Car Insurance, we're changing the way car insurance works. We focus on simplicity, transparency, and flexibility, making it easier for you to get the coverage you need without confusion.</p>
+                </div>
+            </div>
+            <div class="mission-vision">
+                <div class="mission">
+                    <h3>Our Mission</h3>
+                    <p>We aim to provide reliable, affordable, and user-friendly insurance solutions. Our goal is to make the insurance process clear and accessible, giving you the confidence to make the best choice for your needs.</p>
+                </div>
+                <div class="vision">
+                    <h3>Our Vision</h3>
+                    <p>We see a future where car insurance is straightforward, transparent, and accessible to everyone. We’re committed to creating an easy, hassle-free experience that puts you in control of your coverage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form action="#" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Reliable Car Insurance. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

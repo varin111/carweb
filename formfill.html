@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Kurd Car Insurance Subscription</title>
+    <link rel="stylesheet" href="formfill.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logok.PNG" alt="Logo" class="logo">
+            <h1> Kurd Car Insurance Subscription</h1>
+        </div>
+        <form action="/submit-form" method="POST" class="insurance-form">
+            <div class="form-group">
+                <label for="first-name">First Name*</label>
+                <input type="text" id="first-name" name="first-name" required placeholder="Enter your first name">
+            </div>
+
+            <div class="form-group">
+                <label for="last-name">Last Name*</label>
+                <input type="text" id="last-name" name="last-name" required placeholder="Enter your last name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your E-mail*</label>
+                <input type="email" id="email" name="email" required placeholder="myname@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Your Phone Number*</label>
+                <input type="tel" id="phone" name="phone" required placeholder="(XXX) XXX-XXXX">
+            </div>
+
+            <div class="form-group">
+                <label for="policy-number">Policy Number*</label>
+                <input type="text" id="policy-number" name="policy-number" required placeholder="Enter your policy number">
+            </div>
+
+            <div class="form-group">
+                <label for="vin">VIN of the New Vehicle*</label>
+                <input type="text" id="vin" name="vin" required placeholder="Enter the VIN">
+            </div>
+
+            <div class="form-group">
+                <label for="primary-driver">Who will be the primary driver?*</label>
+                <input type="text" id="primary-driver" name="primary-driver" required placeholder="Primary driver name">
+            </div>
+
+            <div class="form-group">
+                <label for="commute-distance">How far is the primary driver's commute?*</label>
+                <select id="commute-distance" name="commute-distance" required>
+                    <option value="pleasure">Pleasure use only</option>
+                    <option value="less-3-miles">Less than 3 miles</option>
+                    <option value="less-10-miles">Less than 10 miles</option>
+                    <option value="more-10-miles">More than 10 miles</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Do you want Comprehensive and Collision coverage for this vehicle?*</label>
+                <div class="radio-group">
+                    <label for="coverage-yes">
+                        <input type="radio" id="coverage-yes" name="coverage" value="yes" required> Yes
+                    </label>
+                    <label for="coverage-no">
+                        <input type="radio" id="coverage-no" name="coverage" value="no" required> No
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ownership">Is this vehicle owned, leased, or financed?*</label>
+                <select id="ownership" name="ownership" required>
+                    <option value="owned">Owned</option>
+                    <option value="leased">Leased</option>
+                    <option value="financed">Financed</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="state">In what city is your vehicle registered?*</label>
+                <select id="state" name="state" required>
+                    <option value="" disabled selected>Please Select</option>
+                    <!-- Add state options here -->
+                    <option value="ca">Erbil</option>
+                    <option value="ny">Sulaymaniah</option>
+                    <!-- Add other states as needed -->
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
