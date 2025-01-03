@@ -47,21 +47,21 @@ $columns = array(
         'db' => 'created_at',
         'dt' => 5,
         'formatter' => function ($d, $row) {
-            return date('Y-m-d h:m:i A', strtotime($d));
+            return date('Y-m-d h:i:m A', strtotime($d));
         }
     ),
     array(
         'db' => 'approved_at',
         'dt' => 6,
         'formatter' => function ($d, $row) {
-            return $d ? date('Y-m-d h:m:i A', strtotime($d)) : 'N/A';
+            return $d ? date('Y-m-d h:i:m A', strtotime($d)) : 'N/A';
         }
     ),
     array(
         'db' => 'rejected_at',
         'dt' => 7,
         'formatter' => function ($d, $row) {
-            return $d ? date('Y-m-d h:m:i A', strtotime($d)) : 'N/A';
+            return $d ? date('Y-m-d h:i:m A', strtotime($d)) : 'N/A';
         }
     ),
     array(

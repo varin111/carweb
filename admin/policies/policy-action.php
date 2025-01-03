@@ -74,7 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
     if (empty($values['coverage_type'])) {
         $errors['coverage_type'] = 'Coverage Type is required';
-    } elseif (validate_string($values['coverage_type'], 3, 255) === false) {
+    } elseif (validate_string(
+        value: $values['coverage_type'],
+        min: 3,
+        max: 255,
+        another_preg: ' \_\-,.!?'
+    ) === false) {
         $errors['coverage_type'] = 'Coverage Type must be a string and between 3 and 255 characters';
     } else {
         $errors['coverage_type'] = '';

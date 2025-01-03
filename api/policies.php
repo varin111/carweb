@@ -35,7 +35,7 @@ $columns = array(
         'db'        => 'created_at',
         'dt'        => 6,
         'formatter' => function ($d, $row) {
-            return date('Y-m-d h:m:i A', strtotime($d));
+            return date('Y-m-d h:i:m A', strtotime($d));
         },
     ),
     array(

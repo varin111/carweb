@@ -68,9 +68,15 @@ $totalPages = ceil($totalClaims / $limit);
 <div style="margin-block: 1.5rem;" class="container">
     <?= showSessionMessage('claim-action') ?>
     <div class="d-flex align-items-center justify-content-between">
-        <h1 class="text-center">
-            Claims
-        </h1>
+        <div class="d-flex align-items-center gap-1">
+            <a href="<?= SITE_URL ?>home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
+                <i class="fas fa-arrow-left me-1"></i>
+                Back
+            </a>
+            <h1 class="text-center">
+                Claims
+            </h1>
+        </div>
         <a href="<?= SITE_URL ?>/home/claims/action.php?action=create&vehicle_id=<?= $vehicle_id ?>" class="btn btn-primary">
             New Claim
         </a>

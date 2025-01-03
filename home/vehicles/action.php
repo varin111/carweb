@@ -96,7 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
     if (empty($values['vin'])) {
         $errors['vin'] = 'VIN is required';
-    } elseif (validate_string($values['vin'], 3, 255) === false) {
+    } elseif (validate_string(value: $values['vin'], min: 3, max: 255,
+        another_preg :' \_\-,.!?') === false) {
         $errors['vin'] = 'VIN must be a string and between 3 and 255 characters';
     }
 
