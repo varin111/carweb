@@ -49,22 +49,15 @@ $columns = array(
         'dt' => 7,
     ),
     array(
-        'db' => 'id',
-        'dt' => 8,
-        'formatter' => function ($d, $row) {
-            return count_query('vehicles', "user_id = $d");
-        },
-    ),
-    array(
         'db'        => 'created_at',
-        'dt'        => 9,
+        'dt'        => $only_admins == 1 ? 8 : 9,
         'formatter' => function ($d, $row) {
             return date('Y-m-d h:i:m A', strtotime($d));
         },
     ),
     array(
         'db'        => 'id',  // Use 'id' to identify the user for actions
-        'dt'        => 10,
+        'dt'        => $only_admins == 1 ? 9 : 10,
         'formatter' => function ($d, $row) use ($url_actions, $only_admins) {
             if (data_get($url_actions, 'edit') !== null) {
                 return '<div class="text-center">
@@ -90,6 +83,17 @@ $columns = array(
         }
     ),
 );
+
+
+if($only_admins != 1) {
+    $columns[] =  array(
+        'db' => 'id',
+        'dt' => 8,
+        'formatter' => function ($d, $row) {
+            return count_query('vehicles', "user_id = $d");
+        },
+    );
+}
 
 echo json_encode(
     SSP::simple($_GET, [
