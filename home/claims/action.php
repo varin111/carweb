@@ -131,7 +131,7 @@ if (!empty($selectPolicy) && count($selectPolicy) > 0) {
 $dataSelected = $selectedPolicy ? json_encode($selectedPolicy) : '{}';
 
 ?>
-<div style="margin-block: 1.5rem;" class="container">
+<div style="margin-block: 7.5rem;" class="container">
     <div class="d-flex align-items-center gap-2 mb-3">
         <a href="<?= SITE_URL ?>home/claims/index.php?vehicle_id=<?= $vehicle_id; ?>" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
             <i class="fas fa-arrow-left me-1"></i>

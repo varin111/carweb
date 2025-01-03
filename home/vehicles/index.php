@@ -47,7 +47,7 @@ $vehicles = query_select_with_join(
 // Calculate total pages
 $totalPages = ceil($totalVehicles / $limit);
 ?>
-<div style="margin-block: 1.5rem;" class="container">
+<div style="margin-block: 7.5rem;" class="container">
     <?= showSessionMessage('vehicle-action') ?>
     <div class="d-flex align-items-center justify-content-between">
         <h1 class="text-center">Vehicles</h1>

@@ -80,7 +80,7 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
     }
 }
 ?>
-<div style="margin-block: 1.5rem;" class="container">
+<div style="margin-block: 7.5rem;" class="container">
     <?= showSessionMessage('vehicle-policy-action') ?>
     <div class="modal fade" id="ViewVehicleModel" tabindex="-1" aria-labelledby="ViewVehicleModelLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

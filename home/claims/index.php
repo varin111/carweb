@@ -65,7 +65,7 @@ $claims = query_select_with_join(
 // Calculate total pages
 $totalPages = ceil($totalClaims / $limit);
 ?>
-<div style="margin-block: 1.5rem;" class="container">
+<div style="margin-block: 7.5rem;" class="container">
     <?= showSessionMessage('claim-action') ?>
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-1">

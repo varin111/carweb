@@ -1,5 +1,4 @@
-<!-- fixed-top -->
-<header id="header" class="header d-flex align-items-center">
+<header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="<?= SITE_URL ?>" class="logo d-flex align-items-center me-auto">
             <img
@@ -51,7 +50,7 @@
             <a class="btn-getstarted" href="<?= SITE_URL ?>login.php">Login</a>
             <a class="btn-getstarted"
                 style="margin-left: 5px;"
-            href="<?= SITE_URL ?>signup.php">Signup</a>
+                href="<?= SITE_URL ?>signup.php">Signup</a>
         <?php endif; ?>
     </div>
 </header>
