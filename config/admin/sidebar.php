@@ -4,7 +4,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <h1 class="navbar-brand navbar-brand-autodark">
-            <a href="/index.php"
+            <a href="<?= SITE_URL ?>/index.php"
                 class="d-flex align-items-center justify-content-center gap-2">
                 <img src="<?= SITE_URL ?>/assets/images/logo.png" width="110" height="60" alt="Tabler" class="navbar-brand-image">
                 <span>
