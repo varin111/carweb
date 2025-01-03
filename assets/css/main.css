@@ -2075,10 +2075,6 @@ h6 {
     color: var(--accent-color);
 }
 
-.hero-img {
-    z-index: 1000 !important;
-}
-
 .hero-img img {
     border-radius: 50%;
     border: 10px solid rgba(0, 123, 255, 0.5);
