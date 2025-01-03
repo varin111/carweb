@@ -136,6 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
 
     if (empty($values['new_password'])) {
         $errors['new_password'] = 'New Password is required';
+    } elseif (validate_string($values['password'], 8, 255) === false) {
+        $errors['password'] = 'Password must be a string and between 8 and 255 characters';
     } elseif (validate_string($values['new_password'], 6, 255) === false) {
         $errors['new_password'] = 'New Password must be a string and between 6 and 255 characters';
     } else {

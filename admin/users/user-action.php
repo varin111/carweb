@@ -121,6 +121,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     if ($action === 'add') {
         if (empty($values['password'])) {
             $errors['password'] = 'Password is required';
+        }elseif (validate_string($values['password'], 8, 255) === false) {
+            $errors['password'] = 'Password must be a string and between 8 and 255 characters';
+        }
         } elseif (validate_password($values['password']) === false) {
             $errors['password'] = 'Password must contain at least one uppercase letter, one digit, one special character and at least 8 characters';
         } elseif (validate_confirm_password($values['password'], $values['confirm_password']) === false) {
