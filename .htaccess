@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(.*)$ /index.php?$1 [L,QSA]
+
+# not allowed to access htaccess files and config directories show 403 forbidden error
+RedirectMatch 403 /\.git
+RedirectMatch 403 /\.htaccess
+RedirectMatch 403 /config
+RedirectMatch 403 /api/ssp.class.php
+
+# if just /api/ is requested, redirect to /index.php
+RewriteRule ^api/?$ /index.php [L,QSA]
