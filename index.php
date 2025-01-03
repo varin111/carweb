@@ -2,7 +2,7 @@
 require_once __DIR__ . '/config/front/header.php';
 ?>
 <main class="main">
-    <section id="hero" class="hero section dark-background" style="padding: 0px;">
+    <section id="hero" class="hero section dark-background" >
         <div class="container">
             <div class="row gy-4">
                 <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
