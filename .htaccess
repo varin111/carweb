@@ -9,6 +9,8 @@ RedirectMatch 403 /\.git
 RedirectMatch 403 /\.htaccess
 RedirectMatch 403 /config
 RedirectMatch 403 /api/ssp.class.php
+RedirectMatch 403 /composer.json
+RedirectMatch 403 /composer.lock
 
 # if just /api/ is requested, redirect to /index.php
 RewriteRule ^api/?$ /index.php [L,QSA]
