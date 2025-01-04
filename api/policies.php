@@ -27,7 +27,9 @@ $columns = array(
     array('db' => 'end_date', 'dt' => 3, 'formatter' => function ($d, $row) {
         return date('Y-m-d', strtotime($d));
     }),
-    array('db' => 'premium_amount', 'dt' => 4),
+    array('db' => 'premium_amount', 'dt' => 4, 'formatter' => function ($d, $row) {
+        return format_currency($d) .' $';
+    }),
     array('db' => 'status', 'dt' => 5, 'formatter' => function ($d, $row) {
         return $d == 'enable' ? '<span class="badge bg-success">Enable</span>' : '<span class="badge bg-danger">Disable</span>';
     }),
