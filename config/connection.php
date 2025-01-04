@@ -104,7 +104,7 @@ function count_query(string $table, string $where = null): int
     return ($result && $result->num_rows > 0) ? $result->fetch_all(MYSQLI_ASSOC)[0]['count'] : 0;
 }
 
-function data_exists(string $table,string $join, string $columns = '*', string $where = null){
+function data_exists(string $table, string $join, string $columns = '*', string $where = null): bool
 {
     global $conn;
     $sql = "SELECT $columns FROM $table $join";
@@ -114,4 +114,9 @@ function data_exists(string $table,string $join, string $columns = '*', string $
     $result = $conn->query($sql);
     return ($result && $result->num_rows > 0) ? true : false;
 }
+
+function run_sql(string $sql): bool|mysqli_result   
+{
+    global $conn;
+    return $conn->query($sql);
 }

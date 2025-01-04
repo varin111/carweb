@@ -33,10 +33,9 @@ if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
     <?= getJsLinks() ?>
 </head>
 
-<body class="page bg-body-emphasis">
-    <!-- Sidebar -->
-    <?php require "sidebar.php"; ?>
-    <!-- End of Sidebar -->
-    <div class="page-wrapper">
-        <div class="page-body d-print-none">
-            <div class="container-xl">
+<body>
+    <div class="page bg-body-emphasis">
+        <?php require "sidebar.php"; ?>
+        <div class="page-wrapper">
+            <div class="page-body d-print-none">
+                <div class="container-fluid">

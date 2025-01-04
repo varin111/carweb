@@ -6,26 +6,26 @@ $action = data_get($params, 'action', null);
 if ($action === 'delete') {
     $id = data_get($params, 'id', null);
     if ($id !== null && is_numeric($id)) {
-        $user = query_select('users', '*', "id = $id AND is_admin = 1");
-        if (!empty($user)) {
-            $imagePath = $user['image_path'];
-            if ($imagePath) {
-                removeOldImage($imagePath);
-            }
-            query_delete('users', "id = $id AND is_admin = 1");
-            setSession('user-action', [
+        $claim = query_select('claims', '*', "id = $id");
+        if ($claim) {
+            query_delete('claims', "id = $id");
+            setSession('claim-action', [
                 'type' => 'success',
-                'message' => 'User deleted successfully'
+                'message' => 'Claim deleted successfully'
+            ]);
+        } else {
+            setSession('claim-action', [
+                'type' => 'danger',
+                'message' => 'Claim not found'
             ]);
         }
     }
 }
 ?>
-<div class="page-header d-print-none mt-2 bg-white p-2 p-lg-3 p-md-2 p-sm-1 rounded-2 border mb-1">
-    <div class="d-flex align-items-center justify-content-between">
-        <h2 class="">
-            Claims List
-        </h2>
+
+<div class="bg-white p-2 p-lg-3 p-md-2 p-sm-1 pb-0 d-flex align-items-center justify-content-between">
+    <div class="fs-1 fw-bolder">
+        Claims List
     </div>
 </div>
 <?= showSessionMessage('claim-action') ?>
@@ -58,6 +58,7 @@ if ($action === 'delete') {
                 'emptyTable': '<div class="text-center fs-3 fw-bolder">No data available</div>'
             },
             'ajax': '<?= SITE_URL ?>api/claims.php',
+            'searching': true,
         });
     });
 </script>

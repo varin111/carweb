@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config/connection.php';
 require_once __DIR__ . '/ssp.class.php';
 
 $only_admins = $_GET['only_admins'] ?? 0;
-
+$not_auth_user = auth()['id'];
 $table = 'users';
 
 $primaryKey = 'id';
@@ -14,7 +14,7 @@ $url_actions = [
     'delete' => SITE_URL . 'admin/users/index.php?action=delete&id=',
 ];
 if ($only_admins == 1) {
-    $where = "users.is_admin = 1";
+    $where = "users.is_admin = 1 AND users.id != $not_auth_user";
 } else {
     $where = "users.is_admin = 0";
     $url_actions['delete'] = SITE_URL . 'admin/customers/index.php?action=delete&id=';

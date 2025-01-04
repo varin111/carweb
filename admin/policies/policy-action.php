@@ -70,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     // change format of date to Y-m-d H:i:s
     $values['start_date'] = !empty($values['start_date']) ? date('Y-m-d H:i:s', strtotime($values['start_date'])) : '';
     $values['end_date'] = !empty($values['end_date']) ? date('Y-m-d H:i:s', strtotime($values['end_date'])) : '';
-    var_dump($values['start_date']);
 
     if (empty($values['coverage_type'])) {
         $errors['coverage_type'] = 'Coverage Type is required';

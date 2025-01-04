@@ -21,11 +21,9 @@ if ($action === 'delete') {
     }
 }
 ?>
-<div class="page-header d-print-none mt-2 bg-white p-2 p-lg-3 p-md-2 p-sm-1 rounded-2 border mb-1">
-    <div class="d-flex align-items-center justify-content-between">
-        <h2 class="page-title">
-            Customers List
-        </h2>
+<div class="bg-white p-2 p-lg-3 p-md-2 p-sm-1 pb-0 d-flex align-items-center justify-content-between">
+    <div class="fs-1 fw-bolder">
+        Customers List
     </div>
 </div>
 <?= showSessionMessage('user-action') ?>

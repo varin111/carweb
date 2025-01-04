@@ -5,7 +5,7 @@ $params = getUrlParams($_SERVER['REQUEST_URI']);
 $action = data_get($params, 'action', null);
 if ($action === 'delete') {
     $id = data_get($params, 'id', null);
-    if ($id !== null && is_numeric($id)) {
+    if ($id !== null && is_numeric($id) && $id != auth()['id']) {
         $user = query_select('users', '*', "id = $id AND is_admin = 1");
         if (!empty($user)) {
             $imagePath = $user['image_path'];
@@ -21,14 +21,14 @@ if ($action === 'delete') {
     }
 }
 ?>
-<div class="page-header d-print-none mt-2 bg-white p-2 p-lg-3 p-md-2 p-sm-1 rounded-2 border mb-1">
-    <div class="d-flex align-items-center justify-content-between">
-        <h2 class="">
-            Users List
-        </h2>
-        <div>
-            <a href="<?= SITE_URL ?>admin/users/user-action.php?action=add" class="btn btn-primary">Add User</a>
-        </div>
+<div class="bg-white p-2 p-lg-3 p-md-2 p-sm-1 pb-0 d-flex align-items-center justify-content-between">
+    <div class="fs-1 fw-bolder">
+        Users List
+    </div>
+    <div>
+        <a href="<?= SITE_URL ?>admin/users/user-action.php?action=add" class="btn btn-primary btn-sm px-3 py-2 rounded-2">
+            Add User
+        </a>
     </div>
 </div>
 <?= showSessionMessage('user-action') ?>

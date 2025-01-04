@@ -1,4 +1,17 @@
 <?php
+require_once __DIR__ . '/PHPMailer/src/PHPMailer.php';
+require_once __DIR__ . '/PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/PHPMailer/src/Exception.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Bbsnly\ChartJs\Chart;
+use Bbsnly\ChartJs\Config\Data;
+use Bbsnly\ChartJs\Config\Dataset;
+use Bbsnly\ChartJs\Config\Options;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 session_start();
 ob_start();
 
@@ -87,7 +100,7 @@ function isActivePages(...$pages)
     $pages = array_map(function ($page) {
         return SITE_URL . $page;
     }, $pages);
-    $currentPageUrl = 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; 
+    $currentPageUrl = 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     return in_array($currentPageUrl, $pages);
 }
 
@@ -183,10 +196,10 @@ function getCssLinks(): void
     <link href="' . SITE_URL . 'assets/css/tabler-flags.min.css" rel="stylesheet" />
     <link href="' . SITE_URL . 'assets/css/tabler-payments.min.css" rel="stylesheet" />
     <link href="' . SITE_URL . 'assets/css/tabler-vendors.min.css" rel="stylesheet" />
-    <link href="' . SITE_URL . 'assets/css/demo.min.css" rel="stylesheet" />
     <link href="' . SITE_URL . 'assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="' . SITE_URL . 'assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="' . SITE_URL . 'assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="' . SITE_URL . 'assets/css/demo.min.css" rel="stylesheet" />
     <link href="' . SITE_URL . 'assets/css/main.css" rel="stylesheet" />
     ';
 }
@@ -200,6 +213,7 @@ function getJsLinks(): void
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.semanticui.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script defer src="' . SITE_URL . 'assets/js/tabler.min.js"></script>
     <script defer src="' . SITE_URL . 'assets/js/demo.min.js"></script>
     <script defer src="' . SITE_URL . 'assets/js/list.min.js"></script>
@@ -217,14 +231,6 @@ function format_date($date, $format = 'Y-m-d h:i:s A')
 {
     return date($format, strtotime($date));
 }
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-require_once __DIR__ . '/PHPMailer/src/PHPMailer.php';
-require_once __DIR__ . '/PHPMailer/src/SMTP.php';
-require_once __DIR__ . '/PHPMailer/src/Exception.php';
 
 function sendMail($data)
 {
@@ -278,8 +284,34 @@ function random_string($length = 10)
     return $randomString;
 }
 
-// format_currency
 function format_currency($value)
 {
     return number_format($value ?: 0, 2);
+}
+
+function chart(string $type = 'bar', string $dataLabel = 'Data To Show', array $label = [], array $data = []): Chart
+{
+    $chart = new Chart;
+    $chart->type = $type;
+
+    $chart->data = new Data();
+    $chart->data->labels = $label;
+
+    $dataset = new Dataset();
+    $dataset->label = $dataLabel;
+    $dataset->data = $data;
+    $dataset->backgroundColor = '#007bff';
+    $dataset->borderColor = '#007bff';
+    $dataset->borderWidth = 1;
+
+    $chart->data->datasets = [$dataset];
+    $options = new Options();
+    $options->responsive = true;
+    $options->scales = [
+        'y' => [
+            'beginAtZero' => true
+        ]
+    ];
+    $chart->options = $options;
+    return $chart;
 }
