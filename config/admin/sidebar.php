@@ -41,8 +41,8 @@
                 </div>
             </div>
             <ul class="navbar-nav pt-lg-3 gap-2 pb-3">
-                <li class="nav-item <?= isActivePages('admin/index.php') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="<?= SITE_URL . 'admin/' ?>">
+                <li class="nav-item <?= isActivePages('admin/index.php', 'admin') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="<?= SITE_URL . 'admin/index.php' ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="6.25" cy="6.25" r="4.25" stroke="currentColor" stroke-width="1.5" />
@@ -56,7 +56,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item  <?= isActivePages('admin/users/index.php', 'admin/users/user-action.php') ? 'active' : ''; ?> dropdown">
+                <li class="nav-item  <?= isActivePages('admin/users/index.php', 'admin/users/user-action.php?action=add') ? 'active' : ''; ?> dropdown">
                     <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['admin/users/index.php', 'admin/users/user-action.php']) ? 'true' : ''; ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -70,12 +70,12 @@
                             User List
                         </span>
                     </a>
-                    <div class="dropdown-menu <?= isActivePages('admin/users/index.php', 'admin/users/user-action.php') ? 'show' : ''; ?>">
+                    <div class="dropdown-menu <?= isActivePages('admin/users/index.php', 'admin/users/user-action.php?action=add') ? 'show' : ''; ?>">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item <?= isActivePages('admin/users/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/users/index.php' ?>">
                                 User List
                             </a>
-                            <a class="dropdown-item <?= isActivePages('admin/users/user-action.php') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/users/user-action.php?action=add' ?>">
+                            <a class="dropdown-item <?= isActivePages('admin/users/user-action.php?action=add') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/users/user-action.php?action=add' ?>">
                                 Add User
                             </a>
                         </div>
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item  <?= isActivePages('admin/policies/index.php', 'admin/policies/policy-action.php') ? 'active' : ''; ?> dropdown">
+                <li class="nav-item  <?= isActivePages('admin/policies/index.php', 'admin/policies/policy-action.php?action=add') ? 'active' : ''; ?> dropdown">
                     <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['admin/policies/index.php', 'admin/policies/policy-action.php']) ? 'true' : ''; ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -115,12 +115,12 @@
                             Policy List
                         </span>
                     </a>
-                    <div class="dropdown-menu <?= isActivePages('admin/policies/index.php', 'admin/policies/policy-action.php') ? 'show' : ''; ?>">
+                    <div class="dropdown-menu <?= isActivePages('admin/policies/index.php', 'admin/policies/policy-action.php?action=add') ? 'show' : ''; ?>">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item <?= isActivePages('admin/policies/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/policies/index.php' ?>">
                                 Policy List
                             </a>
-                            <a class="dropdown-item <?= isActivePages('admin/policies/policy-action.php') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/policies/policy-action.php?action=add' ?>">
+                            <a class="dropdown-item <?= isActivePages('admin/policies/policy-action.php?action=add') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/policies/policy-action.php?action=add' ?>">
                                 Add Policy
                             </a>
                         </div>

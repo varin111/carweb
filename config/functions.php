@@ -84,8 +84,11 @@ function getSession($key)
 
 function isActivePages(...$pages)
 {
-    $currentPage = trim($_SERVER['SCRIPT_NAME'], '/');
-    return in_array($currentPage, (array)$pages);
+    $pages = array_map(function ($page) {
+        return SITE_URL . $page;
+    }, $pages);
+    $currentPageUrl = 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; 
+    return in_array($currentPageUrl, $pages);
 }
 
 function getUrlParams(string $url): array
@@ -280,5 +283,3 @@ function format_currency($value)
 {
     return number_format($value ?: 0, 2);
 }
-
-
