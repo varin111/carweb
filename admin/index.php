@@ -15,13 +15,14 @@ $ten_latest_claims = query_select_with_join(
 );
 
 $sql = "SELECT users.id as user_id, users.name as user_name,
-        SUM(payments.amount_paid) as total_payment_amount
+        SUM(payments.amount_paid) as total_payment_amount,
+        MAX(payments.payment_date) as latest_payment_date
         FROM users
         JOIN vehicles ON vehicles.user_id = users.id
         JOIN payments ON payments.vehicle_id = vehicles.id
         WHERE users.is_admin = 0
         GROUP BY users.id, users.name
-        ORDER BY users.id DESC
+        ORDER BY latest_payment_date DESC
         LIMIT 10";
 
 $customers = run_sql($sql);
@@ -189,7 +190,7 @@ if ($customers) {
                     <tbody>
                         <?php foreach ($ten_latest_claims as $claim): ?>
                             <tr>
-                                <td><?= $claim['id'] ?></td>
+                                <td><?= md5($claim['id']) ?></td>
                                 <td><?= $claim['user_name'] ?></td>
                                 <td><?= $claim['vehicle_license_plate'] ?></td>
                                 <td><?= $claim['policy_coverage_type'] ?></td>

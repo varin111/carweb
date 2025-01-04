@@ -298,10 +298,11 @@ function chart(string $type = 'bar', string $dataLabel = 'Data To Show', array $
     $chart->data->labels = $label;
 
     $dataset = new Dataset();
-    $dataset->label = $dataLabel;
+    $dataset->label = '';
+    // $dataset->label = $label;
     $dataset->data = $data;
-    $dataset->backgroundColor = '#007bff';
-    $dataset->borderColor = '#007bff';
+    $dataset->backgroundColor = array_map('generateRandomColor', $data);
+    $dataset->borderColor = array_map('generateRandomColor', $data);
     $dataset->borderWidth = 1;
 
     $chart->data->datasets = [$dataset];
@@ -314,4 +315,9 @@ function chart(string $type = 'bar', string $dataLabel = 'Data To Show', array $
     ];
     $chart->options = $options;
     return $chart;
+}
+
+function generateRandomColor()
+{
+    return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 }
