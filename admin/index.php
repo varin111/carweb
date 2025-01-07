@@ -188,6 +188,11 @@ if ($customers) {
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if(count($ten_latest_claims) == 0): ?>
+                            <tr>
+                                <td colspan="8" class="text-center">No claims found</td>
+                            </tr>
+                        <?php endif; ?>
                         <?php foreach ($ten_latest_claims as $claim): ?>
                             <tr>
                                 <td><?= md5($claim['id']) ?></td>
