@@ -84,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-payment'])) {
             'vehicle_id' => $vehicle['id'],
             'policy_id' => $policy_id,
             'payment_date' => $currentDate,
+            'end_date_payment' => $vehiclePolicy['end_date'], // end date of policy is the end date of payment
             'amount_paid' => $totalPrice,
             'payment_method' => 'card',
             'payment_status' => 'success',

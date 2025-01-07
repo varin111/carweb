@@ -7,6 +7,7 @@ if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
 $currentDate = date('Y-m-d H:i:s');
 $params = getUrlParams($_SERVER['REQUEST_URI']);
 $policy_id = data_get($params, 'policy_id', null);
+$vehicle_policy_id = data_get($params, 'vehicle_policy_id', null);
 $action = data_get($params, 'action', null);
 $id = data_get($params, 'id', null);
 $page = data_get($params, 'page', 1); // Get current page
@@ -25,15 +26,36 @@ if (empty($vehicle)) {
 $where = "vehicle_policies.user_id = $auth[id]";
 $totalVehiclePolicies = count_query('vehicle_policies', $where); // Count total vehicle policies
 
-$where .= " AND policies.end_date >= '$currentDate' AND vehicles.id = $id";
+$where .= " AND vehicles.id = $id";
+// $vehiclePolicies = query_select_with_join(
+//     table: 'vehicle_policies',
+//     join: 'JOIN users ON vehicle_policies.user_id = users.id JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id JOIN policies ON vehicle_policies.policy_id = policies.id LEFT JOIN payments ON vehicle_policies.policy_id = payments.policy_id AND vehicle_policies.vehicle_id = payments.vehicle_id',
+//     columns: 'vehicle_policies.*, users.name as user_name, policies.start_date as start_date, policies.end_date as end_date, policies.status as status, policies.premium_amount as premium_amount, policies.coverage_type as coverage_type, payments.payment_status as payment_status',
+//     where: $where,
+//     limit: $limit,
+//     offset: $offset
+// );
 $vehiclePolicies = query_select_with_join(
     table: 'vehicle_policies',
-    join: 'JOIN users ON vehicle_policies.user_id = users.id JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id JOIN policies ON vehicle_policies.policy_id = policies.id LEFT JOIN payments ON vehicle_policies.policy_id = payments.policy_id AND vehicle_policies.vehicle_id = payments.vehicle_id',
-    columns: 'vehicle_policies.*, users.name as user_name, policies.start_date as start_date, policies.end_date as end_date, policies.status as status, policies.premium_amount as premium_amount, policies.coverage_type as coverage_type, payments.payment_status as payment_status',
+    join: 'JOIN users ON vehicle_policies.user_id = users.id 
+        JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id 
+        JOIN policies ON vehicle_policies.policy_id = policies.id 
+        LEFT JOIN payments ON vehicle_policies.policy_id = payments.policy_id 
+        AND vehicle_policies.vehicle_id = payments.vehicle_id',
+    columns: 'DISTINCT vehicle_policies.*, 
+            users.name as user_name, 
+            policies.start_date as start_date, 
+            policies.end_date as end_date, 
+            policies.status as status, 
+            policies.premium_amount as premium_amount, 
+            policies.coverage_type as coverage_type, 
+            MAX(payments.end_date_payment) as payment_end_date_payment',
     where: $where,
     limit: $limit,
-    offset: $offset
+    offset: $offset,
+    group_by: 'vehicle_policies.id, payments.payment_status',
 );
+
 $totalPolicies = count_query('policies');
 
 $allPolicies = selectAll(
@@ -76,6 +98,21 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
     } else {
         setSession('vehicle-policy-action', ['message' => 'Vehicle policy already assigned.', 'type' => 'danger']);
         header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#allPolicies");
+        exit;
+    }
+}
+
+
+if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
+    $vehiclePolicy = query_select('vehicle_policies', '*', "vehicle_id = $id AND id = $vehicle_policy_id AND user_id = $auth[id]");
+    if (!empty($vehiclePolicy)) {
+        query_delete('vehicle_policies', "id = $vehiclePolicy[id]");
+        setSession('vehicle-policy-action', ['message' => 'Vehicle policy deleted successfully.', 'type' => 'success']);
+        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#vehicle_policies");
+        exit;
+    } else {
+        setSession('vehicle-policy-action', ['message' => 'Vehicle policy not found.', 'type' => 'danger']);
+        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#vehicle_policies");
         exit;
     }
 }
@@ -189,11 +226,21 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
                 <?php endif; ?>
                 <div class="row mt-1 gy-3">
                     <?php foreach ($vehiclePolicies as $vehiclePolicy) : ?>
+                        <?php
+                        $isAvailablePolicy = ($vehiclePolicy['end_date'] >= $currentDate && $vehiclePolicy['start_date'] <= $currentDate) && $vehiclePolicy['status'] == 'enable';
+                        $isTimeToRenewPayment = $vehiclePolicy['payment_end_date_payment'] != null ? $vehiclePolicy['payment_end_date_payment'] <= $currentDate : null;
+                        ?>
                         <div class="col-md-6 col-lg-4 col-xl-3">
-                            <div class="card shadow-sm rounded-3">
+                            <div class="card shadow-sm rounded-3 position-relative">
                                 <div class="card-body rounded-3">
-                                    <div class="card-title text-center text-truncate">
-                                        <h3 class="text-center"><?= $vehiclePolicy['coverage_type'] ?></h3>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="fs-3 text-center"><?= $vehiclePolicy['coverage_type'] ?></p>
+                                        <div>
+                                            <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>&action=delete-policy&policy_id=<?= $vehiclePolicy['policy_id'] ?>&vehicle_policy_id=<?= $vehiclePolicy['id'] ?>#vehicle_policies"
+                                                class="btn-sm px-1 p-2 rounded-2 text-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div>
                                         <p class="card-text">
@@ -201,32 +248,46 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
                                         </p>
                                         <p class="card-text">
                                             <strong>End Date:</strong> <?= $vehiclePolicy['end_date'] ?>
+                                            <?php if ($vehiclePolicy['end_date'] <= $currentDate) : ?>
+                                                <span class="badge bg-danger rounded-pill">Expired</span>
+                                            <?php endif; ?>
                                         </p>
                                         <p class="card-text">
                                             <strong>Premium amount (USD):</strong> <?= $vehiclePolicy['premium_amount'] ?> $
                                         </p>
                                         <p class="card-text">
                                             <strong>Policy Status:</strong> <span
-                                                class="badge <?= $vehiclePolicy['status'] == 'enable' ? 'bg-success' : 'bg-danger' ?> rounded-pill">
-                                                <?= $vehiclePolicy['status'] == 'enable' ? 'Active' : 'Inactive' ?>
+                                                class="badge <?= $isAvailablePolicy ? 'bg-success' : 'bg-danger' ?> rounded-pill">
+                                                <?= $isAvailablePolicy ? 'Active' : 'Inactive' ?>
                                             </span>
                                         </p>
+                                        <?php if ($vehiclePolicy['payment_end_date_payment'] != null): ?>
+                                            <p class="card-text">
+                                                <strong>Payment End Date:</strong> <?= $vehiclePolicy['payment_end_date_payment'] ?>
+                                            </p>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3">
-                                        <?php if (($vehiclePolicy['status'] == 'enable' && $vehiclePolicy['end_date'] >= $currentDate && $vehiclePolicy['start_date'] <= $currentDate) && ($vehiclePolicy['payment_status'] != 'success')) : ?>
-                                            <a href="<?= SITE_URL ?>home/vehicles/payment-process.php?token=<?= random_string(50) ?>&user_id=<?= $auth['id'] ?>&vehicle_id=<?= $vehicle['id'] ?>&policy_id=<?= $vehiclePolicy['policy_id'] ?>&id=<?= $vehiclePolicy['id'] ?>"
+                                        <?php if ($isAvailablePolicy) : ?>
+                                            <?php if ($isTimeToRenewPayment || $vehiclePolicy['payment_end_date_payment'] == null) : ?>
+                                                <a href="<?= SITE_URL ?>home/vehicles/payment-process.php?token=<?= random_string(50) ?>&user_id=<?= $auth['id'] ?>&vehicle_id=<?= $vehicle['id'] ?>&policy_id=<?= $vehiclePolicy['policy_id'] ?>&id=<?= $vehiclePolicy['id'] ?>#vehicle_policies"
                                                 class="btn btn-primary btn-sm px-3 p-2 rounded-2 flex-grow-1">
-                                                Pay
-                                            </a>
+                                                <?php if ($isTimeToRenewPayment != null) : ?>
+                                                        Renew Payment
+                                                    <?php else : ?>
+                                                        Pay Now
+                                                    <?php endif; ?>
+                                                </a>
+                                            <?php else : ?>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-primary btn-sm px-3 p-2 rounded-2 flex-grow-1 disabled">
+                                                    Payment is successfully processed
+                                                </button>
+                                            <?php endif; ?>
                                         <?php else : ?>
                                             <a href="#" class="btn btn-primary disabled w-full">
-                                                <?php
-                                                if ($vehiclePolicy['status'] != 'enable' || ($vehiclePolicy['end_date'] >= $currentDate && $vehiclePolicy['start_date'] <= $currentDate) == false) {
-                                                    echo "Policy Is Not Available";
-                                                } elseif ($vehiclePolicy['payment_status'] == 'success') {
-                                                    echo "Payment Success";
-                                                }
-                                                ?>
+                                                Policy Is Not Available
                                             </a>
                                         <?php endif; ?>
                                     </div>

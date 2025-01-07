@@ -14,11 +14,12 @@ if (empty($vehicle_id)) {
     exit;
 }
 
-$sql = "SELECT vehicle_policies.*,policies.coverage_type as coverage_type FROM vehicle_policies
-        LEFT JOIN policies ON vehicle_policies.policy_id = policies.id
-        LEFT JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id
-        WHERE vehicle_policies.vehicle_id = $vehicle_id AND policies.status = 'enable' AND policies.start_date <= '$currentDate' AND policies.end_date >= '$currentDate'
-        AND policies.coverage_type LIKE '%$search%' 
+$sql = "SELECT vehicle_policies.*,policies.coverage_type as coverage_type, payments.end_date_payment as end_date_payment FROM vehicle_policies
+        JOIN policies ON vehicle_policies.policy_id = policies.id
+        JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id
+        JOIN payments ON vehicle_policies.policy_id = payments.policy_id AND vehicle_policies.vehicle_id = payments.vehicle_id
+        WHERE vehicle_policies.vehicle_id = $vehicle_id AND policies.status = 'enable' AND policies.start_date <= '$currentDate' AND policies.end_date >= '$currentDate' AND end_date_payment >= '$currentDate'
+        AND policies.coverage_type LIKE '%$search%'
         order by policies.id desc
         LIMIT 10 OFFSET " . ($page - 1) * 10;
 

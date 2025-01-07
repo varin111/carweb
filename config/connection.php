@@ -8,6 +8,7 @@ $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->error);
 }
+$conn->query("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
 
 function auth(): array
 {
@@ -48,12 +49,15 @@ function query_select(string $table, string $columns = '*', string $where = null
     return ($result && $result->num_rows > 0)  ? $result->fetch_all(MYSQLI_ASSOC)[0] : [];
 }
 
-function query_select_with_join(string $table, string $join, string $columns = '*', string $where = null, int $limit = null, int $offset = null): array
+function query_select_with_join(string $table, string $join, string $columns = '*', string $where = null, int $limit = null, int $offset = null,string $group_by = null): array
 {
     global $conn;
     $sql = "SELECT $columns FROM $table $join";
     if ($where) {
         $sql .= " WHERE $where";
+    }
+    if ($group_by) {
+        $sql .= " GROUP BY $group_by";
     }
     $sql .= " ORDER BY $table.id DESC";
     if ($limit !== null) {
@@ -65,6 +69,7 @@ function query_select_with_join(string $table, string $join, string $columns = '
     $result = $conn->query($sql);
     return ($result && $result->num_rows > 0) ? $result->fetch_all(MYSQLI_ASSOC) : [];
 }
+
 function query_insert(string $table, array $data): void
 {
     global $conn;

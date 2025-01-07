@@ -15,7 +15,7 @@
                 <li><a href="<?= SITE_URL ?>#about">About</a></li>
                 <li><a href="<?= SITE_URL ?>#services">Services</a></li>
                 <li><a href="<?= SITE_URL ?>#team">Team</a></li>
-                <li><a href="<?= SITE_URL ?>#pricing">Pricing</a></li>
+                <!-- <li><a href="<?= SITE_URL ?>#pricing">Pricing</a></li> -->
                 <li><a href="<?= SITE_URL ?>#contact">Contact</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
