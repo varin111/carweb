@@ -116,9 +116,6 @@ $selectPolicy = query_select_with_join(
         LEFT JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id',
     columns: 'vehicle_policies.*, policies.coverage_type as coverage_type',
     where: "vehicle_policies.vehicle_id = $vehicle_id 
-            AND policies.status = 'enable' 
-            AND policies.start_date <= '$currentDate' 
-            AND policies.end_date >= '$currentDate' 
             AND vehicle_policies.policy_id = " . ($values['policy_id'] ?: '0')
 );
 $selectedPolicy = null;

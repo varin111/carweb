@@ -18,7 +18,7 @@ $sql = "SELECT vehicle_policies.*,policies.coverage_type as coverage_type, payme
         JOIN policies ON vehicle_policies.policy_id = policies.id
         JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id
         JOIN payments ON vehicle_policies.policy_id = payments.policy_id AND vehicle_policies.vehicle_id = payments.vehicle_id
-        WHERE vehicle_policies.vehicle_id = $vehicle_id AND policies.status = 'enable' AND policies.start_date <= '$currentDate' AND policies.end_date >= '$currentDate' AND end_date_payment >= '$currentDate'
+        WHERE vehicle_policies.vehicle_id = $vehicle_id
         AND policies.coverage_type LIKE '%$search%'
         order by policies.id desc
         LIMIT 10 OFFSET " . ($page - 1) * 10;
