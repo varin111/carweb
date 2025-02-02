@@ -74,13 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $errors['license_plate'] = 'License Plate is required';
     } elseif (validate_string($values['license_plate'], 3, 255) === false) {
         $errors['license_plate'] = 'License Plate must be a string and between 3 and 255 characters';
-    } else 
+    } else
 
-    if (empty($values['make'])) {
-        $errors['make'] = 'Make is required';
-    } elseif (validate_string($values['make'], 3, 255) === false) {
-        $errors['make'] = 'Make must be a string and between 3 and 255 characters';
-    }
+        if (empty($values['make'])) {
+            $errors['make'] = 'Make is required';
+        } elseif (validate_string($values['make'], 3, 255) === false) {
+            $errors['make'] = 'Make must be a string and between 3 and 255 characters';
+        }
 
     if (empty($values['model'])) {
         $errors['model'] = 'Model is required';
@@ -96,8 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
     if (empty($values['vin'])) {
         $errors['vin'] = 'VIN is required';
-    } elseif (validate_string(value: $values['vin'], min: 3, max: 255,
-        another_preg :' \_\-,.!?') === false) {
+    } elseif (
+        validate_string(
+            value: $values['vin'],
+            min: 3,
+            max: 255,
+            another_preg: ' \_\-,.!?'
+        ) === false
+    ) {
         $errors['vin'] = 'VIN must be a string and between 3 and 255 characters';
     }
 
@@ -130,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         if (!empty($values['image_path']['name'])) {
             $image_path = uploadImage($values['image_path'], __DIR__ . '/../../' . PATH_IMAGE_UPLOAD_VEHICLES);
         } else {
-            $image_path = !empty($old_image) ?  $oldImage : null;
+            $image_path = !empty($old_image) ? $oldImage : null;
         }
         $data = [
             'license_plate' => $values['license_plate'],
@@ -151,14 +157,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         setSession('vehicle-action', [
             'type' => 'success',
             'message' =>
-            $action == 'create' ? 'Vehicle added successfully' : 'Vehicle updated successfully',
+                $action == 'create' ? 'Vehicle added successfully' : 'Vehicle updated successfully',
         ]);
         header("Location: " . SITE_URL . "home/vehicles/index.php");
     }
 }
 
 ?>
-<div style="margin-top: 1.5rem;" class="container">
+<div style="margin-block: 6.5rem;" class="container">
     <div class="d-flex align-items-center gap-2 mb-3">
         <a href="<?= SITE_URL ?>home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
             <i class="fas fa-arrow-left me-1"></i>
@@ -172,8 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         <div class="col-12">
             <form class="card"
                 action="<?= htmlspecialchars($_SERVER['PHP_SELF'] . '?action=' . $action . ($action === 'update' ? '&id=' . data_get($params, 'id') : '')); ?>"
-                method="POST"
-                enctype="multipart/form-data">
+                method="POST" enctype="multipart/form-data">
                 <div class="card-body">
                     <h3 class="size fs-1 mb-2">
                         <?= $title; ?>
@@ -185,8 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                     License Plate
                                 </label>
                                 <input type="text" class="form-control" placeholder="Enter License Plate"
-                                    name="license_plate"
-                                    value="<?= $values['license_plate']; ?>">
+                                    name="license_plate" value="<?= $values['license_plate']; ?>">
                             </div>
                             <?= showErrors($errors['license_plate']); ?>
                         </div>
@@ -195,8 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                 <label class="form-label">
                                     Make
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Make"
-                                    name="make"
+                                <input type="text" class="form-control" placeholder="Enter Make" name="make"
                                     value="<?= $values['make']; ?>">
                             </div>
                             <?= showErrors($errors['make']); ?>
@@ -206,8 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                 <label class="form-label">
                                     Model
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Model"
-                                    name="model"
+                                <input type="text" class="form-control" placeholder="Enter Model" name="model"
                                     value="<?= $values['model']; ?>">
                             </div>
                             <?= showErrors($errors['model']); ?>
@@ -217,8 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                 <label class="form-label">
                                     Year
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Year"
-                                    name="year"
+                                <input type="text" class="form-control" placeholder="Enter Year" name="year"
                                     value="<?= $values['year']; ?>">
                             </div>
                             <?= showErrors($errors['year']); ?>
@@ -228,8 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                 <label class="form-label">
                                     VIN
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter VIN"
-                                    name="vin"
+                                <input type="text" class="form-control" placeholder="Enter VIN" name="vin"
                                     value="<?= $values['vin']; ?>">
                             </div>
                             <?= showErrors($errors['vin']); ?>
@@ -239,8 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                 <label class="form-label">
                                     Color
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Color"
-                                    name="color"
+                                <input type="text" class="form-control" placeholder="Enter Color" name="color"
                                     value="<?= $values['color']; ?>">
                             </div>
                             <?= showErrors($errors['color']); ?>
@@ -250,43 +249,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                 <label class="form-label">
                                     Mileage
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Mileage"
-                                    name="mileage"
+                                <input type="text" class="form-control" placeholder="Enter Mileage" name="mileage"
                                     value="<?= $values['mileage']; ?>">
                             </div>
                             <?= showErrors($errors['mileage']); ?>
                         </div>
-                        <div class="col-md-12"
-                            x-data="{ image: null, imagePreview: null }"
-                            x-init="() => {
+                        <div class="col-md-12" x-data="{ image: null, imagePreview: null }" x-init="() => {
                                 if ('<?= $oldImage; ?>' !== '') {
                                     imagePreview = '<?= SITE_URL . PATH_IMAGE_UPLOAD_VEHICLES . $oldImage; ?>';
                                 }
                             }">
                             <div class="mb-1">
                                 <label class="form-label">image</label>
-                                <input type="file" class="form-control" placeholder="Enter image"
-                                    name="image_path"
-                                    accept="image/*"
-                                    x-on:change="
+                                <input type="file" class="form-control" placeholder="Enter image" name="image_path"
+                                    accept="image/*" x-on:change="
                                         image = $event.target.files[0];
                                         const reader = new FileReader();
                                         reader.onload = (e) => {
                                             imagePreview = e.target.result;
                                         };
                                         reader.readAsDataURL(image);
-                                    "
-                                    x-ref="image">
-                                <input type="hidden" name="old_image"
-                                    x-ref="old_image"
-                                    value="<?= $oldImage; ?>">
+                                    " x-ref="image">
+                                <input type="hidden" name="old_image" x-ref="old_image" value="<?= $oldImage; ?>">
                             </div>
                             <div class="mt-2 position-relative" x-show="imagePreview" x-cloak>
-                                <img x-bind:src="imagePreview" class="img-fluid img-thumbnail rounded"
-                                    width="300"
+                                <img x-bind:src="imagePreview" class="img-fluid img-thumbnail rounded" width="300"
                                     height="100">
-                                <button type="button" class="btn-close position-absolute top-0 end-0"
-                                    aria-label="Close"
+                                <button type="button" class="btn-close position-absolute top-0 end-0" aria-label="Close"
                                     x-on:click="
                                         image = null;
                                         imagePreview = null;
@@ -299,14 +288,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         </div>
                     </div>
                     <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-primary"
-                            name="submit">
+                        <button type="submit" class="btn btn-primary" name="submit">
                             <?= $title; ?>
                         </button>
                     </div>
             </form>
         </div>
     </div>
+</div>
 </div>
 <?php
 require_once __DIR__ . '/../../config/front/footer.php';

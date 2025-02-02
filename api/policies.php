@@ -21,28 +21,58 @@ $columns = array(
         },
     ),
     array('db' => 'coverage_type', 'dt' => 1),
-    array('db' => 'start_date', 'dt' => 2, 'formatter' => function ($d, $row) {
-        return date('Y-m-d', strtotime($d));
-    }),
-    array('db' => 'end_date', 'dt' => 3, 'formatter' => function ($d, $row) {
-        return date('Y-m-d', strtotime($d));
-    }),
-    array('db' => 'premium_amount', 'dt' => 4, 'formatter' => function ($d, $row) {
-        return format_currency($d) .' $';
-    }),
-    array('db' => 'status', 'dt' => 5, 'formatter' => function ($d, $row) {
-        return $d == 'enable' ? '<span class="badge bg-success">Enable</span>' : '<span class="badge bg-danger">Disable</span>';
-    }),
     array(
-        'db'        => 'created_at',
-        'dt'        => 6,
+        'db' => 'start_date',
+        'dt' => 2,
+        'formatter' => function ($d, $row) {
+            return date('Y-m-d', strtotime($d));
+        }
+    ),
+    array(
+        'db' => 'end_date',
+        'dt' => 3,
+        'formatter' => function ($d, $row) {
+            return date('Y-m-d', strtotime($d));
+        }
+    ),
+    array(
+        'db' => 'premium_amount',
+        'dt' => 4,
+        'formatter' => function ($d, $row) {
+            return format_currency($d) . ' $';
+        }
+    ),
+    array(
+        'db' => 'status',
+        'dt' => 5,
+        'formatter' => function ($d, $row) {
+            return $d == 'enable' ? '<span class="badge bg-success">Enable</span>' : '<span class="badge bg-danger">Disable</span>';
+        }
+    ),
+    array(
+        'db' => 'type',
+        'dt' => 6,
+        'formatter' => function ($d, $row) {
+            $html = match ($d) {
+                'Standard' => '<span class="badge bg-primary">Standard</span>',
+                'Gold' => '<span class="badge bg-warning">Gold</span>',
+                'Platinum' => '<span class="badge bg-info">Platinum</span>',
+                'Premium' => '<span class="badge bg-success">Premium</span>',
+                default => '<span class="badge bg-secondary">Unknown</span>',
+            };
+            return $html;
+        }
+    ),
+    array(
+        'db' => 'created_at',
+        'dt' => 7,
         'formatter' => function ($d, $row) {
             return date('Y-m-d h:i:m A', strtotime($d));
         },
     ),
     array(
-        'db'        => 'id',
-        'dt'        => 7,
+        'db' => 'id',
+        'dt' => 8,
         'formatter' => function ($d, $row) {
             return '
             <div class="d-flex align-items-center justify-content-center gap-1 text-center">

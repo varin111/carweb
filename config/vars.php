@@ -13,3 +13,5 @@ define('SITE_PHONE', '1234567890');
 define('SITE_ADDRESS', '123, Main Street, New York, USA');
 define('PATH_IMAGE_UPLOAD', 'assets/uploads/');
 define('PATH_IMAGE_UPLOAD_VEHICLES', 'assets/uploads/vehicles/');
+
+$policies_type_values = ['Standard', 'Gold', 'Platinum', 'Premium'];

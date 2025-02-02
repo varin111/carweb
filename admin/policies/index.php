@@ -23,7 +23,8 @@ if ($action == 'delete') {
         Policies List
     </div>
     <div>
-        <a href="<?= SITE_URL ?>admin/policies/policy-action.php?action=add" class="btn btn-primary btn-sm px-3 py-2 rounded-2">Add Policy</a>
+        <a href="<?= SITE_URL ?>admin/policies/policy-action.php?action=add"
+            class="btn btn-primary btn-sm px-3 py-2 rounded-2">Add Policy</a>
     </div>
 </div>
 <?= showSessionMessage('policy-action') ?>
@@ -37,6 +38,7 @@ if ($action == 'delete') {
                 <th>End Date</th>
                 <th>Premium Amount</th>
                 <th>Status</th>
+                <th>Type</th>
                 <th>Created At</th>
                 <th class="text-center">actions</th>
             </tr>

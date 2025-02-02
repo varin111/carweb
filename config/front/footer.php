@@ -1,5 +1,5 @@
 <?php if ($_SERVER['PHP_SELF'] !== '/login.php' && $_SERVER['PHP_SELF'] !== '/signup.php') : ?>
-    <footer id="footer" class="footer">
+    <footer id="footer" class="footer w-full">
         <div class="container footer-top">
             <div class="row gy-4">
                 <div class="col-lg-4 col-md-6 footer-about">
