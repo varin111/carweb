@@ -8,6 +8,7 @@ if (!empty(getSession('user_id') || !empty($_COOKIE['user_login']))) {
         header("Location: " . SITE_URL . "index.php");
     }
 }
+
 $errors = [
     'name' => '',
     'username' => '',
@@ -15,6 +16,8 @@ $errors = [
     'phone' => '',
     'date_of_birth' => '',
     'gender' => '',
+    'address' => '',
+    'national_card_image' => '',
     'password' => '',
     'confirm_password' => '',
 ];
@@ -25,6 +28,8 @@ $values = [
     'phone' => '',
     'date_of_birth' => '',
     'gender' => '',
+    'address' => '',
+    'national_card_image' => '',
     'password' => '',
     'confirm_password' => '',
 ];
@@ -36,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     $values['phone'] = clear($_POST['phone']);
     $values['date_of_birth'] = clear($_POST['date_of_birth']);
     $values['gender'] = clear($_POST['gender']);
+    $values['address'] = clear($_POST['address']);
+    $values['national_card_image'] = $_FILES['national_card_image'];
     $values['password'] = clear($_POST['password']);
     $values['confirm_password'] = clear($_POST['confirm_password']);
 
@@ -87,6 +94,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         $errors['gender'] = '';
     }
 
+    if (empty($values['address'])) {
+        $errors['address'] = 'Address is required';
+    } elseif (validate_string($values['address'], 3, 255) === false) {
+        $errors['address'] = 'Address must be a string and between 3 and 255 characters';
+    } else {
+        $errors['address'] = '';
+    }
+
+    if (empty($values['national_card_image']['name'])) {
+        $errors['national_card_image'] = 'National Card Image is required';
+    } elseif (checkImageSize($values['national_card_image']) === false && !empty($values['national_card_image']['name'])) {
+        $errors['national_card_image'] = 'National Card Image size must be less than 10MB';
+    } elseif (checkImageType($values['national_card_image']) === false && !empty($values['national_card_image']['name'])) {
+        $errors['national_card_image'] = 'National Card Image type must be jpg, jpeg, png or gif';
+    } else {
+        $errors['national_card_image'] = '';
+    }
+
     if (empty($values['password'])) {
         $errors['password'] = 'Password is required';
     } elseif (validate_string($values['password'], 8, 255) === false) {
@@ -105,6 +130,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
 
     if (empty(array_filter($errors))) {
+        if (!empty($values['national_card_image']['name'])) {
+            $national_card_image = uploadImage($values['national_card_image']);
+        } else {
+            $national_card_image = null;
+        }
         // create new user
         $data = [
             'name' => $values['name'],
@@ -113,6 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             'phone' => $values['phone'],
             'date_of_birth' => $values['date_of_birth'],
             'gender' => $values['gender'],
+            'address' => $values['address'],
+            'national_card_image' => $national_card_image,
             'password' => password_hash($values['password'], PASSWORD_DEFAULT),
             'created_at' => date('Y-m-d H:i:s'),
             'is_admin' => 0,
@@ -147,9 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                 <h2 class="fs-1 text-center mb-4">
                     Create an account to get started
                 </h2>
-                <form
-                    action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>"
-                    method="POST">
+                <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data">
                     <div class="row row-cards">
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Full Name</label>
@@ -170,7 +200,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                             <?= showErrors($errors['phone']); ?>
                         </div>
                         <div class="mb-3 col-md-6">
-
                             <label class="form-label">Email address</label>
                             <input type="email" class="form-control" placeholder="your@email.com"
                                 name="email" value="<?= $values['email'] ?>">
@@ -190,6 +219,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                                 <option value="Female" <?= $values['gender'] === 'Female' ? 'selected' : ''; ?>>Female </option>
                             </select>
                             <?= showErrors($errors['gender']); ?>
+                        </div>
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-control" placeholder="Your address"
+                                name="address" value="<?= $values['address'] ?>">
+                            <?= showErrors($errors['address']); ?>
+                        </div>
+                        <div class="col-md-12"
+                            x-data="{ image: null, imagePreview: null }">
+                            <div class="mb-1">
+                                <label class="form-label">
+                                    National Card Image
+                                </label>
+                                <input type="file" class="form-control" placeholder="Enter your national card image"
+                                    name="national_card_image"
+                                    accept="image/*"
+                                    x-on:change="
+                                        image = $event.target.files[0];
+                                        const reader = new FileReader();
+                                        reader.onload = (e) => {
+                                            imagePreview = e.target.result;
+                                        };
+                                        reader.readAsDataURL(image);
+                                    "
+                                    x-ref="image">
+                            </div>
+                            <div class="mt-2 position-relative" x-show="imagePreview" x-cloak>
+                                <img x-bind:src="imagePreview" class="img-fluid img-thumbnail rounded"
+                                    width="300"
+                                    height="400">
+                                <button type="button" class="btn-close position-absolute top-0 end-0"
+                                    aria-label="Close"
+                                    x-on:click="
+                                        image = null;
+                                        imagePreview = null;
+                                        $refs.image.value = '';
+                                        $refs.old_image.value = '';
+                                    "></button>
+                            </div>
+                            <?= showErrors($errors['national_card_image']); ?>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-1">

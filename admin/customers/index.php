@@ -32,6 +32,7 @@ if ($action === 'delete') {
         <thead>
             <tr>
                 <th>Image</th>
+                <th>National Card Image</th>
                 <th>Name</th>
                 <th>Username</th>
                 <th>Email</th>
