@@ -28,7 +28,9 @@ if (!empty(getSession('user_id')) || !empty($_COOKIE['user_login'])) {
 </head>
 
 <body class="main-body <?= isActivePages('index.php') ? 'index-page' : ''; ?>">
-    <!-- check if not login and register page -->
-    <?php if ($_SERVER['PHP_SELF'] !== '/login.php' && $_SERVER['PHP_SELF'] !== '/signup.php') : ?>
+    <?php if (
+        $_SERVER['PHP_SELF'] !== '/login.php' && $_SERVER['PHP_SELF'] !== '/signup.php'
+        && str_contains($_SERVER['PHP_SELF'], 'bill/print.php') === false
+    ) : ?>
         <?php require_once __DIR__ . '/navbar.php'; ?>
     <?php endif; ?>

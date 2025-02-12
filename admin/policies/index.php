@@ -36,6 +36,7 @@ if ($action == 'delete') {
                 <th>Coverage Type</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Expired</th>
                 <th>Premium Amount</th>
                 <th>Status</th>
                 <th>Type</th>

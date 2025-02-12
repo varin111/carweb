@@ -51,7 +51,7 @@ $vehiclePolicies = query_select_with_join(
     join: 'JOIN users ON vehicle_policies.user_id = users.id 
         JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id 
         JOIN policies ON vehicle_policies.policy_id = policies.id 
-        LEFT JOIN payments ON vehicle_policies.policy_id = payments.policy_id 
+        left JOIN payments ON vehicle_policies.policy_id = payments.policy_id 
         AND vehicle_policies.vehicle_id = payments.vehicle_id',
     columns: 'DISTINCT vehicle_policies.*, 
             users.name as user_name, 
@@ -61,6 +61,7 @@ $vehiclePolicies = query_select_with_join(
             policies.premium_amount as premium_amount, 
             policies.coverage_type as coverage_type, 
             policies.type as type,
+            Max(payments.id) as last_payment_id,
             MAX(payments.end_date_payment) as payment_end_date_payment',
     where: $where,
     limit: $limit,
@@ -122,6 +123,13 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
 if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
     $vehiclePolicy = query_select('vehicle_policies', '*', "vehicle_id = $id AND id = $vehicle_policy_id AND user_id = $auth[id]");
     if (!empty($vehiclePolicy)) {
+        query_update(
+            'payments',
+            [
+                'end_date_payment' => null,
+            ],
+            'policy_id = ' . $vehiclePolicy['policy_id'] . ' AND vehicle_id = ' . $vehiclePolicy['vehicle_id']
+        );
         query_delete('vehicle_policies', "id = $vehiclePolicy[id]");
         setSession('vehicle-policy-action', ['message' => 'Vehicle policy deleted successfully.', 'type' => 'success']);
         header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#vehicle_policies");
@@ -134,7 +142,6 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
 }
 ?>
 <div style="margin-block: 7.5rem;" class="container">
-    <?= showSessionMessage('vehicle-policy-action') ?>
     <div class="modal fade" id="ViewVehicleModel" tabindex="-1" aria-labelledby="ViewVehicleModelLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -188,7 +195,8 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
             <?= $vehicle['year'] ?> - <?= $vehicle['make'] ?> - <?= $vehicle['model'] ?>
         </h1>
     </div>
-    <div class="d-flex align-items-center gap-2 mb-2">
+    <?= showSessionMessage('vehicle-policy-action') ?>
+    <div class="d-flex align-items-center gap-2 mb-4">
         <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>"
             class="<?= empty($type) ? 'badge bg-primary' : 'badge bg-secondary' ?> btn-sm px-3 p-2 rounded-2">
             All
@@ -256,17 +264,25 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                         <?php
                         $isAvailablePolicy = ($vehiclePolicy['end_date'] >= $currentDate && $vehiclePolicy['start_date'] <= $currentDate) && $vehiclePolicy['status'] == 'enable';
                         $isTimeToRenewPayment = $vehiclePolicy['payment_end_date_payment'] != null ? $vehiclePolicy['payment_end_date_payment'] <= $currentDate : null;
+                        $vehicle_policy_details = getPolicyTypeDetails($vehiclePolicy['type']);
                         ?>
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card shadow-sm rounded-3 position-relative">
                                 <div class="card-body rounded-3">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <p class="fs-3 text-center"><?= $vehiclePolicy['coverage_type'] ?></p>
-                                        <div>
+                                        <p class="fs-3 text-center text-truncate"><?= $vehiclePolicy['coverage_type'] ?></p>
+                                        <div class="d-flex gap-3 align-items-center">
                                             <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>&action=delete-policy&policy_id=<?= $vehiclePolicy['policy_id'] ?>&vehicle_policy_id=<?= $vehiclePolicy['id'] ?>#vehicle_policies"
-                                                class="btn-sm px-1 p-2 rounded-2 text-danger">
+                                                class="btn btn-sm px-3 p-2 rounded-2 bg-danger text-white">
                                                 <i class="fas fa-trash"></i>
                                             </a>
+                                            <?php if ($isTimeToRenewPayment || $vehiclePolicy['payment_end_date_payment'] != null): ?>
+                                                <a href="<?= SITE_URL ?>home/bill/print.php?token=<?= random_string(50) ?>&payment_id=<?= $vehiclePolicy['last_payment_id'] ?>"
+                                                    class="btn btn-sm px-3 p-2 rounded-2 bg-primary text-white"
+                                                    target="_blank" rel="noopener noreferrer">
+                                                    <i class="fas fa-print"></i>
+                                                </a>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div>
@@ -284,7 +300,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                                         </p>
                                         <p class="card-text">
                                             <strong>Policy Status:</strong> <span
-                                                class="badge <?= $isAvailablePolicy ? 'bg-success' : 'bg-danger' ?> rounded-pill">
+                                                class="badge <?= $isAvailablePolicy ? 'bg-success' : 'bg-danger' ?>">
                                                 <?= $isAvailablePolicy ? 'Active' : 'Inactive' ?>
                                             </span>
                                         </p>
@@ -308,6 +324,38 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                                                 <?= $vehiclePolicy['payment_end_date_payment'] ?>
                                             </p>
                                         <?php endif; ?>
+                                    </div>
+                                    <div x-data="{open:false}" class="mt-3">
+                                        <a href="#" x-on:click="$event.preventDefault(); open = !open"
+                                            class="w-full rounded-2 flex-grow-1 d-flex gap-2 align-items-center">
+                                            <span
+                                                x-text="open ? 'Hide Details' : 'Show Details'">
+                                                Show Details
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                :style="open ? 'transform: rotate(180deg);' : ''">
+                                                <path d="M12 5v14" />
+                                                <path d="m19 12-7 7-7-7" />
+                                            </svg>
+                                        </a>
+                                        <div
+                                            x-cloak
+                                            x-show="open" class="mt-3">
+                                            <?php foreach ($vehicle_policy_details as $detail): ?>
+                                                <p class="card-text flex align-items-center gap-2">
+                                                    <?php if ($detail['status']): ?>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check">
+                                                            <path d="M20 6 9 17l-5-5" />
+                                                        </svg>
+                                                    <?php else: ?>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+                                                            <path d="M6 6 18 18M6 18 18 6" />
+                                                        </svg>
+                                                    <?php endif; ?>
+                                                    <?= $detail['title'] ?>
+                                                </p>
+                                            <?php endforeach; ?>
+                                        </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3">
                                         <?php if ($isAvailablePolicy): ?>
@@ -395,11 +443,14 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                 <?php endif; ?>
                 <div class="row mt-1 gy-3">
                     <?php foreach ($allPolicies as $policy): ?>
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <?php
+                        $policy_details = getPolicyTypeDetails($policy['type']);
+                        ?>
+                        <div class="col-md-6 col-lg-4">
                             <div class="card shadow-sm rounded-3">
                                 <div class="card-body rounded-3">
-                                    <div class="card-title text-center text-truncate">
-                                        <h3 class="text-center"><?= $policy['coverage_type'] ?></h3>
+                                    <div class="card-title  text-truncate">
+                                        <h2><?= $policy['coverage_type'] ?></h2>
                                     </div>
                                     <div>
                                         <p class="card-text">
@@ -413,7 +464,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                                         </p>
                                         <p class="card-text">
                                             <strong>Policy Status:</strong> <span
-                                                class="badge <?= $policy['status'] == 'enable' ? 'bg-success' : 'bg-danger' ?> rounded-pill">
+                                                class="badge <?= $policy['status'] == 'enable' ? 'bg-success' : 'bg-danger' ?>">
                                                 <?= $policy['status'] == 'enable' ? 'Active' : 'Inactive' ?>
                                             </span>
                                         </p>
@@ -430,6 +481,38 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                                             ?>
                                             <?= $html ?>
                                         </p>
+                                    </div>
+                                    <div x-data="{open:false}" class="mt-3">
+                                        <a href="#" x-on:click="$event.preventDefault(); open = !open"
+                                            class="w-full rounded-2 flex-grow-1 d-flex gap-2 align-items-center">
+                                            <span
+                                                x-text="open ? 'Hide Details' : 'Show Details'">
+                                                Show Details
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                :style="open ? 'transform: rotate(180deg);' : ''">
+                                                <path d="M12 5v14" />
+                                                <path d="m19 12-7 7-7-7" />
+                                            </svg>
+                                        </a>
+                                        <div
+                                            x-cloak
+                                            x-show="open" class="mt-3">
+                                            <?php foreach ($policy_details as $detail): ?>
+                                                <p class="card-text flex align-items-center gap-2">
+                                                    <?php if ($detail['status']): ?>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check">
+                                                            <path d="M20 6 9 17l-5-5" />
+                                                        </svg>
+                                                    <?php else: ?>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+                                                            <path d="M6 6 18 18M6 18 18 6" />
+                                                        </svg>
+                                                    <?php endif; ?>
+                                                    <?= $detail['title'] ?>
+                                                </p>
+                                            <?php endforeach; ?>
+                                        </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3">
                                         <?php if (($policy['status'] == 'enable' && $policy['end_date'] >= $currentDate && $policy['start_date'] <= $currentDate)): ?>

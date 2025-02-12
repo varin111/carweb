@@ -82,12 +82,11 @@ function query_insert(string $table, array $data): void
 function query_update(string $table, array $data, string $where): void
 {
     global $conn;
-    $set = '';
+    $set = [];
     foreach ($data as $key => $value) {
-        $set .= "$key = '$value', ";
+        $set[] = "$key = " . ($value === null ? "NULL" : "'" . $conn->real_escape_string($value) . "'");
     }
-    $set = rtrim($set, ', ');
-    $sql = "UPDATE $table SET $set WHERE $where";
+    $sql = "UPDATE $table SET " . implode(', ', $set) . " WHERE $where";
     $conn->query($sql);
 }
 

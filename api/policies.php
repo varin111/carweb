@@ -13,7 +13,6 @@ $url_actions = [
 
 $columns = array(
     array(
-        // i dont want show the id in the table so i want show the row count instead
         'db' => 'id',
         'dt' => 0,
         'formatter' => function ($d, $row) {
@@ -36,22 +35,30 @@ $columns = array(
         }
     ),
     array(
-        'db' => 'premium_amount',
+        'db' => 'end_date',
         'dt' => 4,
+        'formatter' => function ($d, $row) {
+            $expired = strtotime($d) < strtotime(date('Y-m-d'));
+            return $expired ? '<span class="badge bg-danger">Expired</span>' : '<span class="badge bg-success">Active</span>';
+        }
+    ),
+    array(
+        'db' => 'premium_amount',
+        'dt' => 5,
         'formatter' => function ($d, $row) {
             return format_currency($d) . ' $';
         }
     ),
     array(
         'db' => 'status',
-        'dt' => 5,
+        'dt' => 6,
         'formatter' => function ($d, $row) {
             return $d == 'enable' ? '<span class="badge bg-success">Enable</span>' : '<span class="badge bg-danger">Disable</span>';
         }
     ),
     array(
         'db' => 'type',
-        'dt' => 6,
+        'dt' => 7,
         'formatter' => function ($d, $row) {
             $html = match ($d) {
                 'Standard' => '<span class="badge bg-primary">Standard</span>',
@@ -65,14 +72,14 @@ $columns = array(
     ),
     array(
         'db' => 'created_at',
-        'dt' => 7,
+        'dt' => 8,
         'formatter' => function ($d, $row) {
             return date('Y-m-d h:i:m A', strtotime($d));
         },
     ),
     array(
         'db' => 'id',
-        'dt' => 8,
+        'dt' => 9,
         'formatter' => function ($d, $row) {
             return '
             <div class="d-flex align-items-center justify-content-center gap-1 text-center">

@@ -321,3 +321,33 @@ function generateRandomColor()
 {
     return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 }
+function getPolicyTypeDetails($type)
+{
+    return match ($type) {
+        'Standard' => [
+            ['title' => 'Comprehensive Coverage: Up to $5,000 in repairs (50% covered), theft protection only.', 'status' => true],
+            ['title' => 'Third-Party Insurance: Up to $10,000 for property damage, $5,000 for injury liability.', 'status' => true],
+            ['title' => '24/7 Customer Service: Office hours only (9 AM - 5 PM), response within 24 hours.', 'status' => true],
+            ['title' => 'Fleet Insurance: Not included.', 'status' => false]
+        ],
+        'Gold' => [
+            ['title' => 'Comprehensive Coverage: Up to $10,000 in repairs (70% covered), includes fire & theft protection.', 'status' => true],
+            ['title' => ' Third-Party Insurance: Up to $25,000 for property damage, $10,000 for injury liability. Basic legal support included.', 'status' => true],
+            ['title' => ' Fleet Insurance: Covers up to 3 vehicles (third-party only), includes limited breakdown assistance.', 'status' => true],
+            ['title' => '24/7 Customer Service: 24/7 Chat Support, response within 12 hours, dedicated claim agent.', 'status' => true]
+        ],
+        'Platinum' => [
+            ['title' => ' Comprehensive Coverage: Up to $25,000 in repairs (90% covered), full fire, theft, and disaster protection.', 'status' => true],
+            ['title' => 'Third-Party Insurance: Up to $50,000 for property damage, $25,000 for injury liability, full legal support.', 'status' => true],
+            ['title' => 'Fleet Insurance: Covers up to 5 vehicles with comprehensive protection and full breakdown assistance.', 'status' => true],
+            ['title' => '24/7 Customer Service: 24/7 Phone & Chat Support, response within 6 hours, priority service.', 'status' => true]
+        ],
+        'Premium' => [
+            ['title' => 'Comprehensive Coverage: Unlimited repairs, 100% covered, full disaster protection.', 'status' => true],
+            ['title' => 'Third-Party Insurance: Unlimited property damage and injury liability coverage, VIP legal support.', 'status' => true],
+            ['title' => 'Fleet Insurance: Unlimited vehicles with comprehensive coverage and VIP breakdown assistance.', 'status' => true],
+            ['title' => '24/7 Customer Service: VIP 24/7 Dedicated Support, response within 1 hour, personal insurance manager.', 'status' => true]
+        ],
+        default => []
+    };
+}

@@ -34,6 +34,8 @@ if (empty($vehiclePolicy)) {
     header("Location: " . SITE_URL . "home/vehicles/view.php?id={$vehicle['id']}");
     exit;
 }
+$policy_details = getPolicyTypeDetails($vehiclePolicy['type']);
+
 $totalPrice = $vehiclePolicy['premium_amount'];
 $payment = query_select('payments', '*', "policy_id = $policy_id AND vehicle_id = {$vehicle['id']}");
 if (isset($payment['status']) && $payment['status'] == 'success') {
@@ -134,6 +136,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-payment'])) {
                     <p class="fw-bold">Payment Details</p>
                     <p class="dis mb-3">Complete your payment to activate your vehicle policy.</p>
                     <p class="dis mb-3">Policy : <?= $vehiclePolicy['coverage_type'] ?></p>
+                </div>
+                <div x-data="{open:false}" class="mb-3 border rounded p-2">
+                    <a href="#" x-on:click="$event.preventDefault(); open = !open"
+                        class="w-full rounded-2 flex-grow-1 d-flex gap-2 align-items-center">
+                        <span
+                            x-text="open ? 'Hide Details' : 'Show Details'">
+                            Show Details
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            :style="open ? 'transform: rotate(180deg);' : ''">
+                            <path d="M12 5v14" />
+                            <path d="m19 12-7 7-7-7" />
+                        </svg>
+                    </a>
+                    <div
+                        x-cloak
+                        x-show="open" class="mt-3">
+                        <?php foreach ($policy_details as $detail): ?>
+                            <p class="card-text flex align-items-center gap-2">
+                                <?php if ($detail['status']): ?>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check">
+                                        <path d="M20 6 9 17l-5-5" />
+                                    </svg>
+                                <?php else: ?>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+                                        <path d="M6 6 18 18M6 18 18 6" />
+                                    </svg>
+                                <?php endif; ?>
+                                <?= $detail['title'] ?>
+                            </p>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
                 <form
                     action="<?= SITE_URL ?>home/vehicles/payment-process.php?token=<?= $token ?>&policy_id=<?= $policy_id ?>&vehicle_id=<?= $vehicle_id ?>&id=<?= $id ?>"
