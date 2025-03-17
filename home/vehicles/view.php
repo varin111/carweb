@@ -122,23 +122,44 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
 
 if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
     $vehiclePolicy = query_select('vehicle_policies', '*', "vehicle_id = $id AND id = $vehicle_policy_id AND user_id = $auth[id]");
+    
     if (!empty($vehiclePolicy)) {
-        query_update(
-            'payments',
-            [
-                'end_date_payment' => null,
-            ],
-            'policy_id = ' . $vehiclePolicy['policy_id'] . ' AND vehicle_id = ' . $vehiclePolicy['vehicle_id']
+        // Get the latest payment for this policy
+        $payment = query_select('payments', '*', 
+            "policy_id = {$vehiclePolicy['policy_id']} AND vehicle_id = {$vehiclePolicy['vehicle_id']}"
         );
+        
+        if (!empty($payment)) {
+            // Update vehicle balance by subtracting the payment amount
+            $newBalance = $vehicle['balance'] - $payment['amount_paid'];
+            query_update('vehicles', ['balance' => $newBalance], "id = {$vehicle['id']}");
+            
+            // Update payment status to cancelled
+            query_update(
+                'payments',
+                [
+                    'payment_status' => 'cancelled',
+                    'end_date_payment' => null
+                ],
+                "id = {$payment['id']}"
+            );
+        }
+        
+        // Delete the vehicle policy
         query_delete('vehicle_policies', "id = $vehiclePolicy[id]");
-        setSession('vehicle-policy-action', ['message' => 'Vehicle policy deleted successfully.', 'type' => 'success']);
-        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#vehicle_policies");
-        exit;
+        
+        setSession('vehicle-policy-action', [
+            'type' => 'success',
+            'message' => 'Vehicle policy cancelled and balance updated successfully.'
+        ]);
     } else {
-        setSession('vehicle-policy-action', ['message' => 'Vehicle policy not found.', 'type' => 'danger']);
-        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#vehicle_policies");
-        exit;
+        setSession('vehicle-policy-action', [
+            'type' => 'danger',
+            'message' => 'Vehicle policy not found.'
+        ]);
     }
+    header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#vehicle_policies");
+    exit;
 }
 ?>
 <div style="margin-block: 7.5rem;" class="container">

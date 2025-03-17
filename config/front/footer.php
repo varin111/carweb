@@ -44,7 +44,7 @@
                         Let us be social and follow us on social media to keep in touch with us.
                     </p>
                     <div class="social-links d-flex">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href="https://x.com/Kurdcar4"><i class="bi bi-twitter-x"></i></a>
                         <a href=""><i class="bi bi-facebook"></i></a>
                         <a href=""><i class="bi bi-instagram"></i></a>
                         <a href=""><i class="bi bi-linkedin"></i></a>
@@ -66,6 +66,216 @@
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <div id="preloader"></div>
 <?php endif; ?>
+
+<script>
+    const apiKey = '<?= $env['OPEN_API_KEY']; ?>'; // Replace with your actual API key
+    const apiUrl = 'https://api.openai.com/v1/chat/completions';
+
+    const chatIcon = document.getElementById("chat-icon");
+    const chatWindow = document.getElementById("chat-window");
+    const closeChat = document.getElementById("close-chat");
+    const inputBox = document.getElementById("input-box");
+    const sendButton = document.getElementById("send-btn");
+    const messagesDiv = document.getElementById("messages");
+
+    // System message containing the custom data
+    const systemMessage = `You are an AI assistant created by Perplexity for Kurd Car Insurance.use emojis
+
+## 📌 General Information
+- Welcome to Kurdistan's trusted car insurance provider
+- Offering reliable, affordable, and comprehensive protection
+- Our team: Varin Kamil Fakhradin, Nuralhuda Nabil, Mohammed Ahmed, and Lana
+
+## 📍 Contact Information
+- Location: Empire World, Erbil
+- Phone/WhatsApp: +964 751 818 9870
+- Email: kurdcarinsurance@gmail.com
+- Hours: 24/7 Support Available
+
+## 💎 Insurance Plans
+
+STANDARD PLAN ($50/month)
+🚗🔧🛡️
+━━━━━━━━━━━━━━━━━━━━━
+- 50% repair coverage up to $5,000
+- Basic theft protection
+- Third-party liability: $10,000 property, $5,000 injury
+- Support: 9 AM - 5 PM
+- Response time: 24 hours
+
+GOLD PLAN ($120/month)
+🏅🚗💬
+━━━━━━━━━━━━━━━━━━━━━
+- 70% repair coverage up to $10,000
+- Enhanced fire & theft protection
+- Third-party liability: $25,000 property, $10,000 injury
+- 24/7 chat support
+- Response time: 12 hours
+- Covers up to 3 vehicles
+
+PREMIUM PLAN ($250/month)
+🌟🚗🔥
+━━━━━━━━━━━━━━━━━━━━━
+- 90% repair coverage up to $25,000
+- Full disaster protection
+- Third-party liability: $50,000 property, $25,000 injury
+- 24/7 phone & chat support
+- Response time: 6 hours
+- Covers up to 5 vehicles
+
+PLATINUM PLAN ($500/month)
+💎🚙🕒
+━━━━━━━━━━━━━━━━━━━━━
+- 100% unlimited repair coverage
+- Complete disaster protection
+- Unlimited liability coverage
+- VIP 24/7 dedicated support
+- Response time: 1 hour
+- Unlimited vehicles coverage
+
+## 🚗 Vehicle Registration Steps
+1. Go to Profile > Vehicle
+2. Click "Add Vehicle"
+3. Enter required details:
+   - License Plate
+   - Make & Model
+   - Year
+   - VIN
+   - Color
+   - Mileage
+   - Vehicle Photo
+4. View available packages
+5. Select and subscribe
+
+## ❓ Common Questions
+- Third-Party vs Comprehensive Coverage
+- Multiple vehicle insurance options
+- Accident reporting procedure
+- Subscription cancellation process
+
+## 🤝 Why Choose Us
+- Flexible Insurance Plans
+- Reliable Protection
+- 24/7 Customer Support
+- Professional Team
+- Quick Claims Processing`
+
+    let conversation = [{
+        role: "system",
+        content: systemMessage
+    }];
+
+    function toggleChat() {
+        const isHidden = chatWindow.style.display === "none";
+        chatWindow.style.display = isHidden ? "flex" : "none";
+        if (isHidden && messagesDiv.children.length === 0) {
+            displayBotMessage("🚗 Welcome to Kurd Car Insurance! How may I assist you today?");
+        }
+    }
+
+    function showTypingIndicator() {
+        const indicator = document.createElement("div");
+        indicator.className = "typing-indicator";
+        indicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+        messagesDiv.appendChild(indicator);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        return indicator;
+    }
+
+    function displayMessage(message, className) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${className}`;
+        messageDiv.textContent = message;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function displayUserMessage(message) {
+        displayMessage(message, "user-message");
+    }
+
+    function displayBotMessage(message) {
+        displayMessage(message, "bot-message");
+    }
+
+    function displayError(message) {
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.textContent = message;
+        messagesDiv.appendChild(errorDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const userMessage = inputBox.value.trim();
+        if (!userMessage) return;
+
+        inputBox.value = "";
+        inputBox.disabled = true;
+        sendButton.disabled = true;
+
+        displayUserMessage(userMessage);
+        const typingIndicator = showTypingIndicator();
+
+        conversation.push({
+            role: "user",
+            content: userMessage
+        });
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: conversation,
+                    temperature: 0.7,
+                    max_tokens: 300
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to get response from assistant');
+            }
+
+            const data = await response.json();
+            const botResponse = data.choices[0].message.content;
+
+            typingIndicator.remove();
+            displayBotMessage(botResponse);
+
+            conversation.push({
+                role: "assistant",
+                content: botResponse
+            });
+
+        } catch (error) {
+            typingIndicator.remove();
+            displayError("Sorry, I couldn't process your message. Please try again.");
+            console.error('Error:', error);
+        }
+
+        inputBox.disabled = false;
+        sendButton.disabled = false;
+        inputBox.focus();
+    }
+
+    // Event Listeners
+
+    chatIcon.addEventListener("click", toggleChat);
+    closeChat.addEventListener("click", () => chatWindow.style.display = "none");
+    sendButton.addEventListener("click", sendMessage);
+    inputBox.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendMessage();
+    });
+</script>
 </body>
 
 </html>

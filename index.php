@@ -138,11 +138,11 @@ require_once __DIR__ . '/config/front/header.php';
             <div class="row gy-4">
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/team-1.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/hama.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
-                            <h4>Walter White</h4>
-                            <span>Chief Executive Officer</span>
-                            <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
+                            <h4>Muhammed Ahmed</h4>
+                            <span>Founder & CEO</span>
+                            <p>With over 10 years in the insurance industry, Muhammed leads our company with a vision for affordable and reliable car insurance solutions.</p>
                             <div class="social">
                                 <a href="#"><i class="bi bi-twitter-x"></i></a>
                                 <a href="#"><i class="bi bi-facebook"></i></a>
@@ -154,11 +154,11 @@ require_once __DIR__ . '/config/front/header.php';
                 </div>
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/team-2.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/nur.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
-                            <h4>Sarah Jhonson</h4>
-                            <span>Product Manager</span>
-                            <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
+                            <h4>Nuralhuda Nabil</h4>
+                            <span>Head of Customer Relations</span>
+                            <p>Dedicated to exceptional customer service, Nuralhuda ensures every client gets the support and guidance they need.</p>
                             <div class="social">
                                 <a href=""><i class="bi bi-twitter-x"></i></a>
                                 <a href=""><i class="bi bi-facebook"></i></a>
@@ -170,11 +170,11 @@ require_once __DIR__ . '/config/front/header.php';
                 </div>
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/team-3.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/varinn.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
-                            <h4>William Anderson</h4>
-                            <span>CTO</span>
-                            <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
+                            <h4>Varin Kamil</h4>
+                            <span>Underwriting Manager</span>
+                            <p>Varin assesses risk and creates tailored policies that fit our clients’ needs and budgets.</p>
                             <div class="social">
                                 <a href=""><i class="bi bi-twitter-x"></i></a>
                                 <a href=""><i class="bi bi-facebook"></i></a>
@@ -186,11 +186,11 @@ require_once __DIR__ . '/config/front/header.php';
                 </div>
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/team-4.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/lana.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
-                            <h4>Amanda Jepson</h4>
-                            <span>Accountant</span>
-                            <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
+                            <h4>Lana Hameed</h4>
+                            <span> Senior Claims Specialist</span>
+                            <p>Lana makes the claims process smooth and stress-free, helping clients get back on the road quickly.</p>
                             <div class="social">
                                 <a href=""><i class="bi bi-twitter-x"></i></a>
                                 <a href=""><i class="bi bi-facebook"></i></a>
@@ -247,6 +247,24 @@ require_once __DIR__ . '/config/front/header.php';
             </div>
         </div>
     </section>
+    <!-- chat -->
+    <div>
+        <div id="chat-icon">
+            <span>💬</span>
+        </div>
+        
+        <div id="chat-window">
+            <div id="chat-header">
+                Kurd Car Insurance Assistant
+                <span id="close-chat">×</span>
+            </div>
+            <div id="messages"></div>
+            <div id="chat-input">
+                <input type="text" id="input-box" placeholder="Type your message..." />
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
 </main>
 <?php
 require_once  __DIR__ . '/config/front/footer.php';
