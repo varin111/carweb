@@ -60,41 +60,43 @@ $columns = array(
         'db'        => 'id',  // Use 'id' to identify the user for actions
         'dt'        => $only_admins  ? 9 : 11,
         'formatter' => function ($d, $row) use ($url_actions, $only_admins) {
+            $html = '<div class="text-center d-flex gap-3">';
             if (data_get($url_actions, 'edit') !== null) {
-                return '<div class="text-center">
+                $html .= '
                         <a href="' . $url_actions['edit'] . $d . '" class="btn btn-sm btn-primary rounded px-3">
                             <i class="fas fa-edit me-1"></i>
                             Edit
                         </a>
-                        <a href="' . $url_actions['delete'] . $d . '" class="btn btn-sm btn-danger rounded px-3"
+                        ';
+            } else {
+                $html .= '<a href="' . SITE_URL . 'admin/customers/policies.php?user_id=' . $d . '" class="btn btn-sm btn-success rounded px-3">
+                                <i class="fas fa-file-invoice-dollar"></i> Policies
+                        </a>';
+            }
+            $html .= '<a href="' . $url_actions['delete'] . $d . '" class="btn btn-sm btn-danger rounded px-3"
                             onclick="return confirm(\'Are you sure you want to delete this ' . ($only_admins == 1 ? 'user' : 'customer') . '?\')">
                             <i class="fas fa-trash me-1"></i>
                             Delete
-                        </a>
-                        </div>';
-            }
-            return '
-            <div class="text-center">
-                <a href="' . $url_actions['delete'] . $d . '" class="btn btn-sm btn-danger rounded px-3"
-                    onclick="return confirm(\'Are you sure you want to delete this ' . ($only_admins == 1 ? 'user' : 'customer') . '?\')">
-                    <i class="fas fa-trash me-1"></i>
-                    Delete
-                </a>
-            </div>';
+                        </a>';
+            return $html . '</div>';
         }
     ),
 );
 
 
-if($only_admins != 1) {
+if ($only_admins != 1) {
     $columns[] =  array(
         'db' => 'national_card_image',
         'dt' => 1,
         'formatter' => function ($d, $row) {
-            return '<span class="avatar avatar-cover" style="
-            width: 100px;
-            height: 50px;
-            margin-top:1px;background-image: url(\'' . getImagePath($d) . '\');"></span>';
+            $path = getImagePath($d);
+            return '<a href="' . $path . '" target="_blank">
+                <span class="avatar avatar-cover" 
+                style="
+                width: 100px;
+                height: 50px;
+                margin-top:1px;background-image: url(\'' . $path . '\');"></span>
+            </a>';
         },
     );
     $columns[] =  array(
