@@ -68,7 +68,7 @@
 <?php endif; ?>
 
 <script>
-    const apiKey = ''; // Replace with your actual API key
+    const apiKey = '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'; // Replace with your actual API key
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
     const chatIcon = document.getElementById("chat-icon");
@@ -158,18 +158,44 @@ PLATINUM PLAN ($500/month)
 - Reliable Protection
 - 24/7 Customer Support
 - Professional Team
-- Quick Claims Processing`
+- Quick Claims Processing`;
 
-    let conversation = [{
+    // Load conversation from localStorage or initialize with system message
+    let conversation = JSON.parse(localStorage.getItem('chatConversation')) || [{
         role: "system",
         content: systemMessage
     }];
+
+    // Function to save conversation to localStorage
+    function saveConversation() {
+        localStorage.setItem('chatConversation', JSON.stringify(conversation));
+    }
+
+    // Function to clear conversation from localStorage
+    function clearConversation() {
+        localStorage.removeItem('chatConversation');
+        conversation = [{
+            role: "system",
+            content: systemMessage
+        }];
+        messagesDiv.innerHTML = ''; // Clear the chat window
+    }
 
     function toggleChat() {
         const isHidden = chatWindow.style.display === "none";
         chatWindow.style.display = isHidden ? "flex" : "none";
         if (isHidden && messagesDiv.children.length === 0) {
-            displayBotMessage("🚗 Welcome to Kurd Car Insurance! How may I assist you today?");
+            // Load previous messages if any
+            conversation.slice(1).forEach(msg => {
+                if (msg.role === "user") {
+                    displayUserMessage(msg.content);
+                } else if (msg.role === "assistant") {
+                    displayBotMessage(msg.content);
+                }
+            });
+            if (conversation.length === 1) {
+                displayBotMessage("🚗 Welcome to Kurd Car Insurance! How may I assist you today?");
+            }
         }
     }
 
@@ -256,6 +282,9 @@ PLATINUM PLAN ($500/month)
                 content: botResponse
             });
 
+            // Save the updated conversation to localStorage
+            saveConversation();
+
         } catch (error) {
             typingIndicator.remove();
             displayError("Sorry, I couldn't process your message. Please try again.");
@@ -268,13 +297,18 @@ PLATINUM PLAN ($500/month)
     }
 
     // Event Listeners
-
     chatIcon.addEventListener("click", toggleChat);
     closeChat.addEventListener("click", () => chatWindow.style.display = "none");
     sendButton.addEventListener("click", sendMessage);
     inputBox.addEventListener("keypress", (e) => {
         if (e.key === "Enter") sendMessage();
     });
+
+    // Optional: Add a button to clear chat history
+    const clearChatButton = document.createElement("button");
+    clearChatButton.textContent = "Clear Chat";
+    clearChatButton.addEventListener("click", clearConversation);
+    document.body.appendChild(clearChatButton);
 </script>
 </body>
 
