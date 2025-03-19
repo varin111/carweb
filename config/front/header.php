@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../connection.php';
-$env = parse_ini_file(__DIR__.'../../../.env', true);
 if (!empty(getSession('user_id')) || !empty($_COOKIE['user_login'])) {
     if (!empty($_COOKIE['user_login'])) {
         setSession('user_id', $_COOKIE['user_login']);
@@ -34,8 +33,8 @@ if (!empty(getSession('user_id')) || !empty($_COOKIE['user_login'])) {
             right: 30px;
             background: linear-gradient(135deg, #00b4db, #0083b0);
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;

@@ -250,9 +250,18 @@ require_once __DIR__ . '/config/front/header.php';
     <!-- chat -->
     <div>
         <div id="chat-icon">
-            <span>💬</span>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;width: 20px;" xml:space="preserve" >
+                    <g>
+                        <path d="M432 0H80C35.817 0 0 35.817 0 80v256c0 44.183 35.817 80 80 80h313.44l91.2 91.36A15.999 15.999 0 0 0 496 512c8.837 0 16-7.163 16-16V80c0-44.183-35.817-80-80-80zm48 457.44-68.64-68.8A15.997 15.997 0 0 0 400 384H80c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48v377.44z" fill="#fff" opacity="1" data-original="#fff"></path>
+                        <circle cx="256" cy="208" r="32" fill="#fff" opacity="1" data-original="#fff"></circle>
+                        <circle cx="368" cy="208" r="32" fill="#fff" opacity="1" data-original="#fff"></circle>
+                        <circle cx="144" cy="208" r="32" fill="#fff" opacity="1" data-original="#fff"></circle>
+                    </g>
+                </svg>
+            </span>
         </div>
-        
+
         <div id="chat-window">
             <div id="chat-header">
                 Kurd Car Insurance Assistant

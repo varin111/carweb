@@ -68,7 +68,7 @@
 <?php endif; ?>
 
 <script>
-    const apiKey = '<?= $env['OPEN_API_KEY']; ?>'; // Replace with your actual API key
+    const apiKey = ''; // Replace with your actual API key
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
     const chatIcon = document.getElementById("chat-icon");
