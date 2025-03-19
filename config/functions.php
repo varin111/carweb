@@ -245,7 +245,7 @@ function sendMail($data)
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = 'kurdcarinsurance@gmail.com';                     //SMTP username
-        $mail->Password   = 'udob gjqm uuqq jvun';                               //SMTP password
+        $mail->Password   = 'sbwt islw vthw gwbn';                               //SMTP password
         // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -269,6 +269,7 @@ function sendMail($data)
 
         $mail->send();
     } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
 
