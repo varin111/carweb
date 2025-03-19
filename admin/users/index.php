@@ -26,7 +26,7 @@ if ($action === 'delete') {
         Users List
     </div>
     <div>
-        <a href="<?= SITE_URL ?>admin/users/user-action.php?action=add" class="btn btn-primary btn-sm px-3 py-2 rounded-2">
+        <a href="<?= SITE_URL ?>/admin/users/user-action.php?action=add" class="btn btn-primary btn-sm px-3 py-2 rounded-2">
             Add User
         </a>
     </div>
@@ -61,7 +61,7 @@ if ($action === 'delete') {
             'language': {
                 'emptyTable': '<div class="text-center fs-3 fw-bolder">No data available</div>'
             },
-            'ajax': '<?= SITE_URL ?>api/users.php?only_admins=1',
+            'ajax': '<?= SITE_URL ?>/api/users.php?only_admins=1',
         });
     });
 </script>

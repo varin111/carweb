@@ -3,9 +3,9 @@ ob_start();
 require_once __DIR__ . '/config/front/header.php';
 if (!empty(getSession('user_id') || !empty($_COOKIE['user_login']))) {
     if (auth()['is_admin'] === '1') {
-        header("Location: " . SITE_URL . "admin/index.php");
+        header("Location: " . SITE_URL . "/admin/index.php");
     } else {
-        header("Location: " . SITE_URL . "index.php");
+        header("Location: " . SITE_URL . "/index.php");
     }
 }
 $errors = [
@@ -43,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
             if (password_verify($values['password'], $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 if ($user['is_admin'] === '1') {
-                    header("Location: " . SITE_URL . "admin/index.php");
+                    header("Location: " . SITE_URL . "/admin/index.php");
                 } else {
-                    header("Location: " . SITE_URL . "index.php");
+                    header("Location: " . SITE_URL . "/index.php");
                 }
             } else {
                 $errors['password'] = 'Password is incorrect';
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         <div class="card">
             <div class="text-center mt-4">
                 <a href="<?= SITE_URL ?>" class="navbar-brand">
-                    <img src="<?= SITE_URL ?>assets/images/logo.png" alt="Tabler"
+                    <img src="<?= SITE_URL ?>/assets/images/logo.png" alt="Tabler"
                         width="60" height="60">
                     <h2 class="fs-1">
                         <?= SITE_NAME ?>

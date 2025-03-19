@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/front/header.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
     exit;
 }
 $params = getUrlParams($_SERVER['REQUEST_URI']);
@@ -26,7 +26,7 @@ $values = [
     'image_path' => '',
 ];
 if (data_get($params, 'action') === null || (data_get($params, 'action') !== 'create' && data_get($params, 'action') !== 'update')) {
-    header("Location: " . SITE_URL . "home/vehicles/action.php?action=create");
+    header("Location: " . SITE_URL . "/home/vehicles/action.php?action=create");
     exit;
 } else {
     $action = data_get($params, 'action', 'create');
@@ -34,7 +34,7 @@ if (data_get($params, 'action') === null || (data_get($params, 'action') !== 'cr
 $oldImage = null;
 
 if (data_get($params, 'action') === 'update' && (data_get($params, 'id') === null || !is_numeric(data_get($params, 'id')))) {
-    header("Location: " . SITE_URL . "home/vehicles/action.php?action=create");
+    header("Location: " . SITE_URL . "/home/vehicles/action.php?action=create");
     exit;
 } elseif (data_get($params, 'action') === 'update' && data_get($params, 'id') !== null) {
     $vehicle = query_select('vehicles', '*', "id = " . data_get($params, 'id'));
@@ -43,7 +43,7 @@ if (data_get($params, 'action') === 'update' && (data_get($params, 'id') === nul
             'type' => 'error',
             'message' => 'Vehicle not found',
         ]);
-        header("Location: " . SITE_URL . "home/vehicles/index.php");
+        header("Location: " . SITE_URL . "/home/vehicles/index.php");
         exit;
     } else {
         $values['license_plate'] = $vehicle['license_plate'];
@@ -77,10 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     } else
 
         if (empty($values['make'])) {
-            $errors['make'] = 'Make is required';
-        } elseif (validate_string($values['make'], 3, 255) === false) {
-            $errors['make'] = 'Make must be a string and between 3 and 255 characters';
-        }
+        $errors['make'] = 'Make is required';
+    } elseif (validate_string($values['make'], 3, 255) === false) {
+        $errors['make'] = 'Make must be a string and between 3 and 255 characters';
+    }
 
     if (empty($values['model'])) {
         $errors['model'] = 'Model is required';
@@ -157,16 +157,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         setSession('vehicle-action', [
             'type' => 'success',
             'message' =>
-                $action == 'create' ? 'Vehicle added successfully' : 'Vehicle updated successfully',
+            $action == 'create' ? 'Vehicle added successfully' : 'Vehicle updated successfully',
         ]);
-        header("Location: " . SITE_URL . "home/vehicles/index.php");
+        header("Location: " . SITE_URL . "/home/vehicles/index.php");
     }
 }
 
 ?>
 <div style="margin-block: 6.5rem;" class="container">
     <div class="d-flex align-items-center gap-2 mb-3">
-        <a href="<?= SITE_URL ?>home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
+        <a href="<?= SITE_URL ?>/home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
             <i class="fas fa-arrow-left me-1"></i>
             Back
         </a>

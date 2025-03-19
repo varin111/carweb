@@ -29,14 +29,14 @@ $values = [
 $oldImage = null;
 
 if (data_get($params, 'action') === null || (data_get($params, 'action') !== 'add' && data_get($params, 'action') !== 'edit')) {
-    header("Location: " . SITE_URL . "admin/users/user-action.php?action=add");
+    header("Location: " . SITE_URL . "/admin/users/user-action.php?action=add");
     exit;
 } else {
     $action = data_get($params, 'action', 'add');
 }
 
 if (data_get($params, 'action') === 'edit' && (data_get($params, 'id') === null || !is_numeric(data_get($params, 'id')))) {
-    header("Location: " . SITE_URL . "admin/users/user-action.php?action=add");
+    header("Location: " . SITE_URL . "/admin/users/user-action.php?action=add");
     exit;
 } elseif (data_get($params, 'action') === 'edit' && data_get($params, 'id') !== null) {
     $user = query_select('users', '*', "id = " . data_get($params, 'id'));
@@ -45,7 +45,7 @@ if (data_get($params, 'action') === 'edit' && (data_get($params, 'id') === null 
             'type' => 'error',
             'message' => 'User not found',
         ]);
-        header("Location: " . SITE_URL . "admin/users/index.php");
+        header("Location: " . SITE_URL . "/admin/users/index.php");
         exit;
     } else {
         $values['name'] = $user['name'];
@@ -173,14 +173,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             'message' =>
             $action == 'add' ? 'User added successfully' : 'User updated successfully',
         ]);
-        header("Location: " . SITE_URL . "admin/users/index.php");
+        header("Location: " . SITE_URL . "/admin/users/index.php");
     }
 }
 
 ?>
 <div>
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <a href="<?= SITE_URL ?>admin/users/index.php" class="btn btn-primary btn-sm px-3 p-1 rounded-3">
+        <a href="<?= SITE_URL ?>/admin/users/index.php" class="btn btn-primary btn-sm px-3 p-1 rounded-3">
             <i class="fas fa-arrow-left me-1"></i>
             Back
         </a>

@@ -10,15 +10,15 @@ $table = 'users';
 $primaryKey = 'id';
 
 $url_actions = [
-    'edit' => SITE_URL . 'admin/users/user-action.php?action=edit&id=',
-    'delete' => SITE_URL . 'admin/users/index.php?action=delete&id=',
+    'edit' => SITE_URL . '/admin/users/user-action.php?action=edit&id=',
+    'delete' => SITE_URL . '/admin/users/index.php?action=delete&id=',
 ];
 
 if ($only_admins == 1) {
     $where = "users.is_admin = 1 AND users.id != $not_auth_user";
 } else {
     $where = "users.is_admin = 0";
-    $url_actions['delete'] = SITE_URL . 'admin/customers/index.php?action=delete&id=';
+    $url_actions['delete'] = SITE_URL . '/admin/customers/index.php?action=delete&id=';
     unset($url_actions['edit']);
 }
 
@@ -69,7 +69,7 @@ $columns = array(
                         </a>
                         ';
             } else {
-                $html .= '<a href="' . SITE_URL . 'admin/customers/policies.php?user_id=' . $d . '" class="btn btn-sm btn-success rounded px-3">
+                $html .= '<a href="' . SITE_URL . '/admin/customers/policies.php?user_id=' . $d . '" class="btn btn-sm btn-success rounded px-3">
                                 <i class="fas fa-file-invoice-dollar"></i> Policies
                         </a>';
             }

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/front/header.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
     exit;
 }
 
@@ -22,7 +22,7 @@ if (empty($vehicle)) {
             'message' => 'Vehicle not found.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/index.php");
+    header("Location: " . SITE_URL . "/home/vehicles/index.php");
     exit;
 } elseif ($vehicle['balance'] == 0 || $vehicle['balance'] == null) {
     setSession(
@@ -32,7 +32,7 @@ if (empty($vehicle)) {
             'message' => 'Vehicle balance is 0. Please pay the policy to get the balance and then try to claim.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/index.php");
+    header("Location: " . SITE_URL . "/home/vehicles/index.php");
     exit;
 }
 
@@ -69,7 +69,7 @@ $totalPages = ceil($totalClaims / $limit);
     <?= showSessionMessage('claim-action') ?>
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-1">
-            <a href="<?= SITE_URL ?>home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
+            <a href="<?= SITE_URL ?>/home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
                 <i class="fas fa-arrow-left me-1"></i>
                 Back
             </a>

@@ -6,7 +6,7 @@ define('DB_PASSWORD', 'hama');
 define('DB_NAME', 'car_insurance');
 
 
-define('SITE_URL', 'http://php_car_insurance.test/');
+define('SITE_URL', 'http://php_car_insurance.test');
 define('SITE_NAME', 'Kurd Car Insurance');
 define('SITE_EMAIL', 'kurdcarinsurance@gmail.com');
 define('SITE_PHONE', '1234567890');

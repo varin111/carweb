@@ -23,7 +23,7 @@ if ($action == 'delete') {
         Policies List
     </div>
     <div>
-        <a href="<?= SITE_URL ?>admin/policies/policy-action.php?action=add"
+        <a href="<?= SITE_URL ?>/admin/policies/policy-action.php?action=add"
             class="btn btn-primary btn-sm px-3 py-2 rounded-2">Add Policy</a>
     </div>
 </div>
@@ -57,7 +57,7 @@ if ($action == 'delete') {
             'language': {
                 'emptyTable': '<div class="text-center fs-3 fw-bolder">No data available</div>'
             },
-            'ajax': '<?= SITE_URL ?>api/policies.php',
+            'ajax': '<?= SITE_URL ?>/api/policies.php',
         });
     });
 </script>

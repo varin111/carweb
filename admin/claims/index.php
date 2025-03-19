@@ -57,7 +57,7 @@ if ($action === 'delete') {
             'language': {
                 'emptyTable': '<div class="text-center fs-3 fw-bolder">No data available</div>'
             },
-            'ajax': '<?= SITE_URL ?>api/claims.php',
+            'ajax': '<?= SITE_URL ?>/api/claims.php',
             'searching': true,
         });
     });

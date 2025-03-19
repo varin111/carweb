@@ -19,8 +19,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <a href="<?= SITE_URL ?>" class="dropdown-item">Home</a>
-                    <a href="<?= SITE_URL . 'admin/profile.php' ?>" class="dropdown-item">Profile</a>
-                    <a href="<?= SITE_URL . 'logout.php' ?>" class=" dropdown-item text-danger">Logout</a>
+                    <a href="<?= SITE_URL . '/admin/profile.php' ?>" class="dropdown-item">Profile</a>
+                    <a href="<?= SITE_URL . '/logout.php' ?>" class=" dropdown-item text-danger">Logout</a>
                 </div>
             </div>
         </div>
@@ -35,14 +35,14 @@
                     </a>
                     <div class="dropdown-menu mt-1 pt-2">
                         <a href="<?= SITE_URL ?>" class="dropdown-item">Home</a>
-                        <a href="<?= SITE_URL . 'admin/profile.php' ?>" class="dropdown-item">Profile</a>
-                        <a href="<?= SITE_URL . 'logout.php' ?>" class=" dropdown-item text-danger">Logout</a>
+                        <a href="<?= SITE_URL . '/admin/profile.php' ?>" class="dropdown-item">Profile</a>
+                        <a href="<?= SITE_URL . '/logout.php' ?>" class=" dropdown-item text-danger">Logout</a>
                     </div>
                 </div>
             </div>
             <ul class="navbar-nav pt-lg-3 gap-2 pb-3">
-                <li class="nav-item <?= isActivePages('admin/index.php', 'admin') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="<?= SITE_URL . 'admin/index.php' ?>">
+                <li class="nav-item <?= isActivePages('/admin/index.php', 'admin') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="<?= SITE_URL . '/admin/index.php' ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="6.25" cy="6.25" r="4.25" stroke="currentColor" stroke-width="1.5" />
@@ -56,8 +56,8 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item  <?= isActivePages('admin/users/index.php', 'admin/users/user-action.php?action=add') ? 'active' : ''; ?> dropdown">
-                    <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['admin/users/index.php', 'admin/users/user-action.php']) ? 'true' : ''; ?>">
+                <li class="nav-item  <?= isActivePages('/admin/users/index.php', '/admin/users/user-action.php?action=add') ? 'active' : ''; ?> dropdown">
+                    <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['/admin/users/index.php', '/admin/users/user-action.php']) ? 'true' : ''; ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="currentColor" stroke-width="1.5" />
@@ -70,19 +70,19 @@
                             User List
                         </span>
                     </a>
-                    <div class="dropdown-menu <?= isActivePages('admin/users/index.php', 'admin/users/user-action.php?action=add') ? 'show' : ''; ?>">
+                    <div class="dropdown-menu <?= isActivePages('/admin/users/index.php', '/admin/users/user-action.php?action=add') ? 'show' : ''; ?>">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item <?= isActivePages('admin/users/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/users/index.php' ?>">
+                            <a class="dropdown-item <?= isActivePages('/admin/users/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . '/admin/users/index.php' ?>">
                                 User List
                             </a>
-                            <a class="dropdown-item <?= isActivePages('admin/users/user-action.php?action=add') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/users/user-action.php?action=add' ?>">
+                            <a class="dropdown-item <?= isActivePages('/admin/users/user-action.php?action=add') ? 'active' : ''; ?>" href="<?= SITE_URL . '/admin/users/user-action.php?action=add' ?>">
                                 Add User
                             </a>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item  <?= isActivePages('admin/customers/index.php', 'admin/customers/user-action.php') ? 'active' : ''; ?> dropdown">
-                    <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['admin/customers/index.php', 'admin/customers/user-action.php']) ? 'true' : ''; ?>">
+                <li class="nav-item  <?= isActivePages('/admin/customers/index.php', '/admin/customers/user-action.php') ? 'active' : ''; ?> dropdown">
+                    <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['/admin/customers/index.php', '/admin/customers/user-action.php']) ? 'true' : ''; ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="currentColor" stroke-width="1.5" />
@@ -95,16 +95,16 @@
                             Customer List
                         </span>
                     </a>
-                    <div class="dropdown-menu <?= isActivePages('admin/customers/index.php', 'admin/customers/user-action.php') ? 'show' : ''; ?>">
+                    <div class="dropdown-menu <?= isActivePages('/admin/customers/index.php', '/admin/customers/user-action.php') ? 'show' : ''; ?>">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item <?= isActivePages('admin/customers/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/customers/index.php' ?>">
+                            <a class="dropdown-item <?= isActivePages('/admin/customers/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . '/admin/customers/index.php' ?>">
                                 Customer List
                             </a>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item  <?= isActivePages('admin/policies/index.php', 'admin/policies/policy-action.php?action=add') ? 'active' : ''; ?> dropdown">
-                    <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['admin/policies/index.php', 'admin/policies/policy-action.php']) ? 'true' : ''; ?>">
+                <li class="nav-item  <?= isActivePages('/admin/policies/index.php', '/admin/policies/policy-action.php?action=add') ? 'active' : ''; ?> dropdown">
+                    <a class="nav-link dropdown-toggle show" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="<?= isActivePages(['/admin/policies/index.php', '/admin/policies/policy-action.php']) ? 'true' : ''; ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4.26759 4.32782C5.95399 3.02741 8.57337 2 12 2C15.4266 2 18.046 3.02741 19.7324 4.32782C19.9693 4.51048 20.0877 4.60181 20.1849 4.76366C20.2665 4.89952 20.3252 5.10558 20.3275 5.26404C20.3302 5.4528 20.2672 5.62069 20.1413 5.95648C19.8305 6.78539 19.6751 7.19984 19.6122 7.61031C19.533 8.12803 19.5322 8.25474 19.6053 8.77338C19.6632 9.18457 19.9795 10.0598 20.6121 11.8103C20.844 12.452 21 13.1792 21 14C21 17 18.5 19.375 16 20C13.8082 20.548 12.6667 21.3333 12 22C11.3333 21.3333 10.1918 20.548 8 20C5.5 19.375 3 17 3 14C3 13.1792 3.15595 12.452 3.38785 11.8103C4.0205 10.0598 4.33682 9.18457 4.39473 8.77338C4.46777 8.25474 4.46702 8.12803 4.38777 7.61031C4.32494 7.19984 4.16952 6.78539 3.85868 5.95648C3.73276 5.62069 3.6698 5.4528 3.67252 5.26404C3.6748 5.10558 3.73351 4.89952 3.81509 4.76366C3.91227 4.60181 4.03071 4.51048 4.26759 4.32782Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -115,19 +115,19 @@
                             Policy List
                         </span>
                     </a>
-                    <div class="dropdown-menu <?= isActivePages('admin/policies/index.php', 'admin/policies/policy-action.php?action=add') ? 'show' : ''; ?>">
+                    <div class="dropdown-menu <?= isActivePages('/admin/policies/index.php', '/admin/policies/policy-action.php?action=add') ? 'show' : ''; ?>">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item <?= isActivePages('admin/policies/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/policies/index.php' ?>">
+                            <a class="dropdown-item <?= isActivePages('/admin/policies/index.php') ? 'active' : ''; ?>" href="<?= SITE_URL . '/admin/policies/index.php' ?>">
                                 Policy List
                             </a>
-                            <a class="dropdown-item <?= isActivePages('admin/policies/policy-action.php?action=add') ? 'active' : ''; ?>" href="<?= SITE_URL . 'admin/policies/policy-action.php?action=add' ?>">
+                            <a class="dropdown-item <?= isActivePages('/admin/policies/policy-action.php?action=add') ? 'active' : ''; ?>" href="<?= SITE_URL . '/admin/policies/policy-action.php?action=add' ?>">
                                 Add Policy
                             </a>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item <?= isActivePages('admin/claims/index.php') ? 'active' : ''; ?>">
-                    <a class="nav-link" href="<?= SITE_URL . 'admin/claims/index.php' ?>">
+                <li class="nav-item <?= isActivePages('/admin/claims/index.php') ? 'active' : ''; ?>">
+                    <a class="nav-link" href="<?= SITE_URL . '/admin/claims/index.php' ?>">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M7.5 4.94531H16C16.8284 4.94531 17.5 5.61688 17.5 6.44531V7.94531" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />

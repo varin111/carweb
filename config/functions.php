@@ -181,7 +181,7 @@ function showSessionMessage($key, $type = 'success')
 
 function getImagePath($image, $path = PATH_IMAGE_UPLOAD)
 {
-    return SITE_URL . ($image ? $path . $image : 'assets/images/not_available_image.png');
+    return SITE_URL . ($image ? $path . $image : '/assets/images/not_available_image.png');
 }
 
 
@@ -191,16 +191,17 @@ function getCssLinks(): void
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.semanticui.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link href="' . SITE_URL . 'assets/css/tabler-flags.min.css" rel="stylesheet" />
-    <link href="' . SITE_URL . 'assets/css/tabler.min.css" rel="stylesheet" />
-    <link href="' . SITE_URL . 'assets/css/tabler-flags.min.css" rel="stylesheet" />
-    <link href="' . SITE_URL . 'assets/css/tabler-payments.min.css" rel="stylesheet" />
-    <link href="' . SITE_URL . 'assets/css/tabler-vendors.min.css" rel="stylesheet" />
-    <link href="' . SITE_URL . 'assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="' . SITE_URL . 'assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="' . SITE_URL . 'assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="' . SITE_URL . 'assets/css/demo.min.css" rel="stylesheet" />
-    <link href="' . SITE_URL . 'assets/css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" integrity="sha512-v8QQ0YQ3H4K6Ic3PJkym91KoeNT5S3PnDKvqnwqFD1oiqIl653crGZplPdU5KKtHjO0QKcQ2aUlQZYjHczkmGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />  
+     <link href="' . SITE_URL . '/assets/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="' . SITE_URL . '/assets/css/tabler.min.css" rel="stylesheet" />
+    <link href="' . SITE_URL . '/assets/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="' . SITE_URL . '/assets/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="' . SITE_URL . '/assets/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="' . SITE_URL . '/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="' . SITE_URL . '/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="' . SITE_URL . '/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="' . SITE_URL . '/assets/css/demo.min.css" rel="stylesheet" />
+    <link href="' . SITE_URL . '/assets/css/main.css" rel="stylesheet" />
     ';
 }
 
@@ -214,16 +215,16 @@ function getJsLinks(): void
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.semanticui.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/js/tabler.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/js/demo.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/js/list.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/vendor/aos/aos.js"></script>
-    <script defer src="' . SITE_URL . 'assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/vendor/waypoints/noframework.waypoints.js"></script>
-    <script defer src="' . SITE_URL . 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script defer src="' . SITE_URL . 'assets/js/main.js"></script>
+    <script defer src="' . SITE_URL . '/assets/js/tabler.min.js"></script>
+    <script defer src="' . SITE_URL . '/assets/js/demo.min.js"></script>
+    <script defer src="' . SITE_URL . '/assets/js/list.min.js"></script>
+    <script defer src="' . SITE_URL . '/assets/vendor/aos/aos.js"></script>
+    <script defer src="' . SITE_URL . '/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script defer src="' . SITE_URL . '/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script defer src="' . SITE_URL . '/assets/vendor/waypoints/noframework.waypoints.js"></script>
+    <script defer src="' . SITE_URL . '/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script defer src="' . SITE_URL . '/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script defer src="' . SITE_URL . '/assets/js/main.js"></script>
     ';
 }
 

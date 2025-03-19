@@ -29,20 +29,20 @@ if (data_get($params, 'action') !== null && data_get($params, 'action') === 'tog
             'type' => 'success',
             'message' => 'Policy status updated successfully',
         ]);
-        header("Location: " . SITE_URL . "admin/policies/index.php");
+        header("Location: " . SITE_URL . "/admin/policies/index.php");
         exit;
     }
 }
 
 if (data_get($params, 'action') === null || (data_get($params, 'action') !== 'add' && data_get($params, 'action') !== 'edit')) {
-    header("Location: " . SITE_URL . "admin/policies/policy-action.php?action=add");
+    header("Location: " . SITE_URL . "/admin/policies/policy-action.php?action=add");
     exit;
 } else {
     $action = data_get($params, 'action', 'add');
 }
 
 if (data_get($params, 'action') === 'edit' && (data_get($params, 'id') === null || !is_numeric(data_get($params, 'id')))) {
-    header("Location: " . SITE_URL . "admin/policies/policy-action.php?action=add");
+    header("Location: " . SITE_URL . "/admin/policies/policy-action.php?action=add");
     exit;
 } elseif (data_get($params, 'action') === 'edit' && data_get($params, 'id') !== null) {
     $policy = query_select('policies', '*', "id = " . data_get($params, 'id'));
@@ -51,7 +51,7 @@ if (data_get($params, 'action') === 'edit' && (data_get($params, 'id') === null 
             'type' => 'error',
             'message' => 'Policy not found',
         ]);
-        header("Location: " . SITE_URL . "admin/policies/index.php");
+        header("Location: " . SITE_URL . "/admin/policies/index.php");
         exit;
     } else {
         $values['coverage_type'] = $policy['coverage_type'];
@@ -150,16 +150,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         setSession('policy-action', [
             'type' => 'success',
             'message' =>
-                $action == 'add' ? 'Policy added successfully' : 'Policy updated successfully',
+            $action == 'add' ? 'Policy added successfully' : 'Policy updated successfully',
         ]);
-        header("Location: " . SITE_URL . "admin/policies/index.php");
+        header("Location: " . SITE_URL . "/admin/policies/index.php");
     }
 }
 
 ?>
 <div>
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <a href="<?= SITE_URL ?>admin/policies/index.php" class="btn btn-primary btn-sm px-3 p-1 rounded-3">
+        <a href="<?= SITE_URL ?>/admin/policies/index.php" class="btn btn-primary btn-sm px-3 p-1 rounded-3">
             <i class="fas fa-arrow-left me-1"></i>
             Back
         </a>
@@ -259,22 +259,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     </div>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         let selectedValues = $('#coverage_type').attr('data-selected');
 
         $('#coverage_type').select2({
             tags: true, // Enable tags
             ajax: {
-                url: '<?= SITE_URL ?>api/select/coverage-types.php',
+                url: '<?= SITE_URL ?>/api/select/coverage-types.php',
                 dataType: 'json',
                 delay: 250,
-                data: function (params) {
+                data: function(params) {
                     return {
                         search: params.term,
                         page: params.page || 1
                     };
                 },
-                processResults: function (data, params) {
+                processResults: function(data, params) {
                     return {
                         results: data.results,
                         pagination: {
@@ -288,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             minimumInputLength: 1,
             templateResult: formatRepo,
             templateSelection: formatRepoSelection,
-            createTag: function (params) {
+            createTag: function(params) {
                 // Don't offset to create a tag if there is no @ symbol
                 var term = $.trim(params.term);
 

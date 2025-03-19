@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../connection.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
 } else {
     if (!empty($_COOKIE['user_login'])) {
         setSession('user_id', $_COOKIE['user_login']);
@@ -12,7 +12,7 @@ if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
     }
     $auth = auth();
     if (auth()['is_admin'] !== '1') {
-        header("Location: " . SITE_URL . "index.php");
+        header("Location: " . SITE_URL . "/index.php");
     }
 }
 

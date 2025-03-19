@@ -11,7 +11,7 @@ if ($action === 'approved' || $action === 'rejected') {
             'type' => 'danger',
             'message' => 'Claim not found'
         ]);
-        header("Location: " . SITE_URL . "admin/claims/index.php");
+        header("Location: " . SITE_URL . "/admin/claims/index.php");
         exit;
     }
     $claim = query_select('claims', '*', "id = $claim_id");
@@ -26,7 +26,7 @@ if ($action === 'approved' || $action === 'rejected') {
                     'type' => 'danger',
                     'message' => 'Vehicle balance is not enough to approve this claim amount should be less than ' . $vehicle_balance['balance']
                 ]);
-                header("Location: " . SITE_URL . "admin/claims/index.php");
+                header("Location: " . SITE_URL . "/admin/claims/index.php");
                 exit;
             }
             query_update('vehicles', ['balance' => $new_balance], "id = " . $claim['vehicle_id']);
@@ -45,11 +45,11 @@ if ($action === 'approved' || $action === 'rejected') {
             'message' => 'Claim ' . $status . ' successfully'
         ]);
     }
-    header("Location: " . SITE_URL . "admin/claims/index.php");
-}else{
+    header("Location: " . SITE_URL . "/admin/claims/index.php");
+} else {
     setSession('claim-action', [
         'type' => 'danger',
         'message' => 'Invalid action'
     ]);
-    header("Location: " . SITE_URL . "admin/claims/index.php");
+    header("Location: " . SITE_URL . "/admin/claims/index.php");
 }

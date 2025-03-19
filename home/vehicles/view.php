@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/front/header.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
     exit;
 }
 $currentDate = date('Y-m-d H:i:s');
@@ -27,7 +27,7 @@ if (
 $vehicle = query_select('vehicles', '*', "id = $id AND user_id = $auth[id]");
 if (empty($vehicle)) {
     setSession('vehicle-action', ['message' => 'Vehicle not found.', 'type' => 'danger']);
-    header("Location: " . SITE_URL . "home/vehicles/index.php");
+    header("Location: " . SITE_URL . "/home/vehicles/index.php");
     exit;
 }
 
@@ -38,14 +38,6 @@ if (!empty($type)) {
 }
 
 $where .= " AND vehicles.id = $id";
-// $vehiclePolicies = query_select_with_join(
-//     table: 'vehicle_policies',
-//     join: 'JOIN users ON vehicle_policies.user_id = users.id JOIN vehicles ON vehicle_policies.vehicle_id = vehicles.id JOIN policies ON vehicle_policies.policy_id = policies.id LEFT JOIN payments ON vehicle_policies.policy_id = payments.policy_id AND vehicle_policies.vehicle_id = payments.vehicle_id',
-//     columns: 'vehicle_policies.*, users.name as user_name, policies.start_date as start_date, policies.end_date as end_date, policies.status as status, policies.premium_amount as premium_amount, policies.coverage_type as coverage_type, payments.payment_status as payment_status',
-//     where: $where,
-//     limit: $limit,
-//     offset: $offset
-// );
 $vehiclePolicies = query_select_with_join(
     table: 'vehicle_policies',
     join: 'JOIN users ON vehicle_policies.user_id = users.id 
@@ -98,7 +90,7 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
     $CheckPolicy = query_select('policies', '*', "id = $policy_id AND start_date <= '$currentDate' AND end_date >= '$currentDate' AND status = 'enable'");
     if (empty($CheckPolicy)) {
         setSession('vehicle-policy-action', ['message' => 'Policy is not available.', 'type' => 'danger']);
-        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#allPolicies");
+        header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$id#allPolicies");
         exit;
     }
     $vehiclePolicy = query_select('vehicle_policies', '*', "vehicle_id = $id AND policy_id = $policy_id AND user_id = $auth[id]");
@@ -110,11 +102,11 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
         ];
         query_insert('vehicle_policies', $data);
         setSession('vehicle-policy-action', ['message' => 'Vehicle policy assigned successfully.', 'type' => 'success']);
-        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#allPolicies");
+        header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$id#allPolicies");
         exit;
     } else {
         setSession('vehicle-policy-action', ['message' => 'Vehicle policy already assigned.', 'type' => 'danger']);
-        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#allPolicies");
+        header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$id#allPolicies");
         exit;
     }
 }
@@ -122,18 +114,20 @@ if ($action == 'assign-policy' && !empty($policy_id)) {
 
 if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
     $vehiclePolicy = query_select('vehicle_policies', '*', "vehicle_id = $id AND id = $vehicle_policy_id AND user_id = $auth[id]");
-    
+
     if (!empty($vehiclePolicy)) {
         // Get the latest payment for this policy
-        $payment = query_select('payments', '*', 
+        $payment = query_select(
+            'payments',
+            '*',
             "policy_id = {$vehiclePolicy['policy_id']} AND vehicle_id = {$vehiclePolicy['vehicle_id']}"
         );
-        
+
         if (!empty($payment)) {
             // Update vehicle balance by subtracting the payment amount
             $newBalance = $vehicle['balance'] - $payment['amount_paid'];
             query_update('vehicles', ['balance' => $newBalance], "id = {$vehicle['id']}");
-            
+
             // Update payment status to cancelled
             query_update(
                 'payments',
@@ -144,10 +138,10 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                 "id = {$payment['id']}"
             );
         }
-        
+
         // Delete the vehicle policy
         query_delete('vehicle_policies', "id = $vehiclePolicy[id]");
-        
+
         setSession('vehicle-policy-action', [
             'type' => 'success',
             'message' => 'Vehicle policy cancelled and balance updated successfully.'
@@ -158,7 +152,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
             'message' => 'Vehicle policy not found.'
         ]);
     }
-    header("Location: " . SITE_URL . "home/vehicles/view.php?id=$id#vehicle_policies");
+    header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$id#vehicle_policies");
     exit;
 }
 ?>
@@ -180,7 +174,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                                 class="img-responsive-1x2 mb-3 rounded-3 object-cover" width="100%" height="250px"
                                 alt="<?= $vehicle['make'] ?>">
                             <div class="px-3 pb-3 text-truncate">
-                                <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>"
+                                <a href="<?= SITE_URL ?>/home/vehicles/view.php?id=<?= $vehicle['id'] ?>"
                                     class="fs-2 text-dark text-decoration-none fw-bold">
                                     <?= $vehicle['year'] ?> - <?= $vehicle['make'] ?> - <?= $vehicle['model'] ?>
                                 </a>
@@ -202,7 +196,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
         </div>
     </div>
     <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 mb-3 justify-content-between">
-        <a href="<?= SITE_URL ?>home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
+        <a href="<?= SITE_URL ?>/home/vehicles/index.php" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
             <i class="fas fa-arrow-left me-1"></i>
             Back
         </a>
@@ -218,7 +212,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
     </div>
     <?= showSessionMessage('vehicle-policy-action') ?>
     <div class="d-flex align-items-center gap-2 mb-4">
-        <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>"
+        <a href="<?= SITE_URL ?>/home/vehicles/view.php?id=<?= $vehicle['id'] ?>"
             class="<?= empty($type) ? 'badge bg-primary' : 'badge bg-secondary' ?> btn-sm px-3 p-2 rounded-2">
             All
         </a>
@@ -232,7 +226,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                 default => 'badge bg-secondary',
             };
             ?>
-            <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>&type=<?= $policy_type ?>"
+            <a href="<?= SITE_URL ?>/home/vehicles/view.php?id=<?= $vehicle['id'] ?>&type=<?= $policy_type ?>"
                 class="<?= $class ?> btn-sm px-3 p-2 rounded-2">
                 <?= $policy_type ?>
             </a>
@@ -293,12 +287,12 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                                     <div class="d-flex align-items-center justify-content-between">
                                         <p class="fs-3 text-center text-truncate"><?= $vehiclePolicy['coverage_type'] ?></p>
                                         <div class="d-flex gap-3 align-items-center">
-                                            <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>&action=delete-policy&policy_id=<?= $vehiclePolicy['policy_id'] ?>&vehicle_policy_id=<?= $vehiclePolicy['id'] ?>#vehicle_policies"
+                                            <a href="<?= SITE_URL ?>/home/vehicles/view.php?id=<?= $vehicle['id'] ?>&action=delete-policy&policy_id=<?= $vehiclePolicy['policy_id'] ?>&vehicle_policy_id=<?= $vehiclePolicy['id'] ?>#vehicle_policies"
                                                 class="btn btn-sm px-3 p-2 rounded-2 bg-danger text-white">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                             <?php if ($isTimeToRenewPayment || $vehiclePolicy['payment_end_date_payment'] != null): ?>
-                                                <a href="<?= SITE_URL ?>home/bill/print.php?token=<?= random_string(50) ?>&payment_id=<?= $vehiclePolicy['last_payment_id'] ?>"
+                                                <a href="<?= SITE_URL ?>/home/bill/print.php?token=<?= random_string(50) ?>&payment_id=<?= $vehiclePolicy['last_payment_id'] ?>"
                                                     class="btn btn-sm px-3 p-2 rounded-2 bg-primary text-white"
                                                     target="_blank" rel="noopener noreferrer">
                                                     <i class="fas fa-print"></i>
@@ -381,7 +375,7 @@ if ($action == 'delete-policy' && !empty($vehicle_policy_id)) {
                                     <div class="d-flex justify-content-center mt-3">
                                         <?php if ($isAvailablePolicy): ?>
                                             <?php if ($isTimeToRenewPayment || $vehiclePolicy['payment_end_date_payment'] == null): ?>
-                                                <a href="<?= SITE_URL ?>home/vehicles/payment-process.php?token=<?= random_string(50) ?>&user_id=<?= $auth['id'] ?>&vehicle_id=<?= $vehicle['id'] ?>&policy_id=<?= $vehiclePolicy['policy_id'] ?>&id=<?= $vehiclePolicy['id'] ?>#vehicle_policies"
+                                                <a href="<?= SITE_URL ?>/home/vehicles/payment-process.php?token=<?= random_string(50) ?>&user_id=<?= $auth['id'] ?>&vehicle_id=<?= $vehicle['id'] ?>&policy_id=<?= $vehiclePolicy['policy_id'] ?>&id=<?= $vehiclePolicy['id'] ?>#vehicle_policies"
                                                     class="btn btn-primary btn-sm px-3 p-2 rounded-2 flex-grow-1">
                                                     <?php if ($isTimeToRenewPayment != null): ?>
                                                         Renew Payment

@@ -15,7 +15,7 @@ if ($policy_id === null || !is_numeric($policy_id)) {
         'type' => 'error',
         'message' => 'Policy not found',
     ]);
-    header("Location: " . SITE_URL . "admin/policies/index.php");
+    header("Location: " . SITE_URL . "/admin/policies/index.php");
     exit;
 } else {
     $policy = query_select('policies', '*', "id = " . $policy_id);
@@ -24,7 +24,7 @@ if ($policy_id === null || !is_numeric($policy_id)) {
             'type' => 'error',
             'message' => 'Policy not found',
         ]);
-        header("Location: " . SITE_URL . "admin/policies/index.php");
+        header("Location: " . SITE_URL . "/admin/policies/index.php");
         exit;
     }
 
@@ -36,7 +36,7 @@ if ($policy_id === null || !is_numeric($policy_id)) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $values['vehicle_ids'] = clearArray($_POST['vehicle_ids'] ?: []);
-    
+
     if (!empty($values['vehicle_ids'])) {
         if (!is_array($values['vehicle_ids'])) {
             $errors['vehicle_ids'] = 'Vehicle must be an array';
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             'type' => 'success',
             'message' => 'Vehicle assigned successfully',
         ]);
-        header("Location: " . SITE_URL . "admin/policies/index.php");
+        header("Location: " . SITE_URL . "/admin/policies/index.php");
     }
 }
 $selectedVehicles = [];
@@ -107,7 +107,7 @@ if (!empty($values['vehicle_ids'])) {
 ?>
 <div>
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <a href="<?= SITE_URL ?>admin/policies/index.php" class="btn btn-primary btn-sm px-3 p-1 rounded-3">
+        <a href="<?= SITE_URL ?>/admin/policies/index.php" class="btn btn-primary btn-sm px-3 p-1 rounded-3">
             <i class="fas fa-arrow-left me-1"></i>
             Back
         </a>
@@ -162,7 +162,7 @@ if (!empty($values['vehicle_ids'])) {
 
         $('#vehicle_ids').select2({
             ajax: {
-                url: '<?= SITE_URL ?>api/select/vehicles.php',
+                url: '<?= SITE_URL ?>/api/select/vehicles.php',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

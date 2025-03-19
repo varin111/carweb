@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/front/header.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
     exit;
 }
 $currentDate = date('Y-m-d H:i:s');
@@ -24,6 +24,7 @@ $payment =
             policies.coverage_type as policy_coverage_type,
             policies.type as policy_type,
             users.name as user_name,
+            users.phone as user_phone,
             users.email as user_email',
         where: "payments.id = $payment_id",
     );
@@ -36,7 +37,7 @@ if (empty($payment) || count($payment) === 0) {
             'message' => 'Payment not found',
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/view.php?id=$vehicle_id");
+    header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$vehicle_id");
     exit;
 }
 $payment = $payment[0];
@@ -45,7 +46,7 @@ $payment = $payment[0];
     style="background: #f1f1f1; padding: 20px; border: 1px solid #000; width: 80%; margin: 0 auto;"
     x-data x-init="window.print();
     setTimeout(() => {
-        window.location.href = '<?= SITE_URL; ?>home/vehicles/view.php?id=<?= $payment['vehicle_id']; ?>';
+        window.location.href = '<?= SITE_URL; ?>/home/vehicles/view.php?id=<?= $payment['vehicle_id']; ?>';
     }, 1000);
     ">
     <div class="d-flex align-items-center justify-content-between flex-wrap">
@@ -61,8 +62,8 @@ $payment = $payment[0];
         </div>
         <div class="d-flex align-items-end flex-column gap-2 mt-2">
             <span class="fw-bolder fs-3">Contact Info:</span>
-            <span class="text-muted"><?= SITE_EMAIL ?></span>
-            <span class="text-muted"><?= SITE_PHONE ?></span>
+            <span class="text-muted"><?= $payment['user_email']; ?></span>
+            <span class="text-muted"><?= $payment['user_phone']; ?></span>
         </div>
     </div>
     <table class="table mt-3">

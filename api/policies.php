@@ -7,8 +7,8 @@ $table = 'policies';
 $primaryKey = 'id';
 
 $url_actions = [
-    'edit' => SITE_URL . 'admin/policies/user-action.php?action=edit&id=',
-    'delete' => SITE_URL . 'admin/policies/index.php?action=delete&id=',
+    'edit' => SITE_URL . '/admin/policies/user-action.php?action=edit&id=',
+    'delete' => SITE_URL . '/admin/policies/index.php?action=delete&id=',
 ];
 
 $columns = array(
@@ -89,17 +89,17 @@ $columns = array(
                     data-bs-original-title="Change status">
                     <input class="form-check-input" type="checkbox" id="' . md5($d) . '" 
                     ' . ($row['status'] == 'enable' ? 'checked' : '') . '
-                    onchange="window.location.href = \'' . SITE_URL . 'admin/policies/policy-action.php?action=toggle-status&id=' . $d . '\'" />
+                    onchange="window.location.href = \'' . SITE_URL . '/admin/policies/policy-action.php?action=toggle-status&id=' . $d . '\'" />
                 </label>
-                <a href="' . SITE_URL . 'admin/policies/assign-vehicle.php?id=' . $d . '" class="btn btn-sm btn-primary me-1">
+                <a href="' . SITE_URL . '/admin/policies/assign-vehicle.php?id=' . $d . '" class="btn btn-sm btn-primary me-1">
                     <i class="fas fa-car me-1"></i>
                     Assign Vehicle
                 </a>
-                <a href="' . SITE_URL . 'admin/policies/policy-action.php?action=edit&id=' . $d . '" class="btn btn-sm btn-primary me-1">
+                <a href="' . SITE_URL . '/admin/policies/policy-action.php?action=edit&id=' . $d . '" class="btn btn-sm btn-primary me-1">
                     <i class="fas fa-edit me-1"></i>
                     Edit
                 </a>
-                <a href="' . SITE_URL . 'admin/policies/index.php?action=delete&id=' . $d . '" class="btn btn-sm btn-danger"
+                <a href="' . SITE_URL . '/admin/policies/index.php?action=delete&id=' . $d . '" class="btn btn-sm btn-danger"
                     onclick="return confirm(\'Are you sure you want to delete this policy?\')">
                     <i class="fas fa-trash me-1"></i>
                     Delete

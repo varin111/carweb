@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/front/header.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
     exit;
 }
 $currentDate = date('Y-m-d H:i:s');
@@ -16,7 +16,7 @@ if ($vehicle_id === null) {
             'message' => 'Vehicle not found.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/index.php");
+    header("Location: " . SITE_URL . "/home/vehicles/index.php");
     exit;
 }
 $vehicle = query_select('vehicles', '*', "id = $vehicle_id AND user_id = $auth[id]");
@@ -28,7 +28,7 @@ if (empty($vehicle)) {
             'message' => 'Vehicle not found.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/index.php");
+    header("Location: " . SITE_URL . "/home/vehicles/index.php");
     exit;
 } elseif ($vehicle['balance'] == 0 || $vehicle['balance'] == null) {
     setSession(
@@ -38,7 +38,7 @@ if (empty($vehicle)) {
             'message' => 'Vehicle balance is 0. Please pay the policy to get the balance and then try to claim.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/index.php");
+    header("Location: " . SITE_URL . "/home/vehicles/index.php");
     exit;
 }
 
@@ -53,7 +53,7 @@ $values = [
     'policy_id' => '',
 ];
 if (data_get($params, 'action') === null || data_get($params, 'action') !== 'create') {
-    header("Location: " . SITE_URL . "home/claims/action.php?action=create");
+    header("Location: " . SITE_URL . "/home/claims/action.php?action=create");
     exit;
 } else {
     $action = data_get($params, 'action', 'create');
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             'type' => 'success',
             'message' => 'Claim added successfully and waiting for approval by the admin.'
         ]);
-        header("Location: " . SITE_URL . "home/claims/index.php?vehicle_id=$vehicle_id");
+        header("Location: " . SITE_URL . "/home/claims/index.php?vehicle_id=$vehicle_id");
         exit;
     }
 }
@@ -130,7 +130,7 @@ $dataSelected = $selectedPolicy ? json_encode($selectedPolicy) : '{}';
 ?>
 <div style="margin-block: 7.5rem;" class="container">
     <div class="d-flex align-items-center gap-2 mb-3">
-        <a href="<?= SITE_URL ?>home/claims/index.php?vehicle_id=<?= $vehicle_id; ?>" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
+        <a href="<?= SITE_URL ?>/home/claims/index.php?vehicle_id=<?= $vehicle_id; ?>" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
             <i class="fas fa-arrow-left me-1"></i>
             Back
         </a>
@@ -212,7 +212,7 @@ $dataSelected = $selectedPolicy ? json_encode($selectedPolicy) : '{}';
 
         $('#policy_id').select2({
             ajax: {
-                url: '<?= SITE_URL ?>api/select/policies-claims.php?vehicle_id=<?= $vehicle_id; ?>',
+                url: '<?= SITE_URL ?>/api/select/policies-claims.php?vehicle_id=<?= $vehicle_id; ?>',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

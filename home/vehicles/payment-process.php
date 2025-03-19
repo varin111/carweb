@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/front/header.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
     exit;
 }
 
@@ -20,7 +20,7 @@ if (empty($vehicle)) {
             'message' => 'Vehicle not found.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/view.php?id=$vehicle_id");
+    header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$vehicle_id");
     exit;
 }
 
@@ -35,7 +35,7 @@ if (empty($vehiclePolicy)) {
             'message' => 'Vehicle policy not found.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/view.php?id={$vehicle['id']}");
+    header("Location: " . SITE_URL . "/home/vehicles/view.php?id={$vehicle['id']}");
     exit;
 }
 
@@ -51,7 +51,7 @@ if (isset($payment['status']) && $payment['status'] == 'success') {
             'message' => 'Payment has been successfully processed.'
         ]
     );
-    header("Location: " . SITE_URL . "home/vehicles/view.php?id=$vehicle_id");
+    header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$vehicle_id");
     exit;
 }
 
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-payment'])) {
             'type' => 'success',
             'message' => 'Payment has been successfully processed.'
         ]);
-        header("Location: " . SITE_URL . "home/vehicles/view.php?id=$vehicle_id");
+        header("Location: " . SITE_URL . "/home/vehicles/view.php?id=$vehicle_id");
         exit;
     }
 }
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-payment'])) {
 
 <div style="margin-block: 7.5rem;" class="container">
     <div class="d-flex align-items-center gap-2 mb-3">
-        <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
+        <a href="<?= SITE_URL ?>/home/vehicles/view.php?id=<?= $vehicle['id'] ?>" class="btn btn-outline-primary btn-sm px-3 p-1 rounded-2">
             <i class="fas fa-arrow-left me-1"></i> Back
         </a>
         <h2 class="fs-2 text-dark text-center text-sm-start">Payment Process</h2>
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-payment'])) {
                 <form action="" method="POST">
                     <p class="fw-bold">Payment Details</p>
                     <p class="dis mb-3">Complete your payment to activate your vehicle policy.</p>
-                    
+
                     <div class="mb-3">
                         <p class="fw-bold">Email address</p>
                         <input class="form-control" type="email" disabled value="<?= $auth['email'] ?>">
@@ -171,31 +171,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-payment'])) {
                     </div>
 
                     <div class="mb-3">
-    <label for="card-expiry" class="form-label">Expiry Date</label>
-    <input type="text" 
-           class="form-control" 
-           id="card-expiry" 
-           name="card-expiry" 
-           placeholder="MM/YY" 
-           maxlength="5" 
-           pattern="(0[1-9]|1[0-2])\/\d{2}"
-           title="Please use MM/YY format (e.g. 03/25)"
-           autocomplete="cc-exp"
-           oninput="formatExpiry(this)"
-           value="<?= htmlspecialchars($values['card-expiry']) ?>">
-    <div class="form-text">Enter expiry date in MM/YY format</div>
-    <?= showErrors($errors['card-expiry']) ?>
-</div>
+                        <label for="card-expiry" class="form-label">Expiry Date</label>
+                        <input type="text"
+                            class="form-control"
+                            id="card-expiry"
+                            name="card-expiry"
+                            placeholder="MM/YY"
+                            maxlength="5"
+                            pattern="(0[1-9]|1[0-2])\/\d{2}"
+                            title="Please use MM/YY format (e.g. 03/25)"
+                            autocomplete="cc-exp"
+                            oninput="formatExpiry(this)"
+                            value="<?= htmlspecialchars($values['card-expiry']) ?>">
+                        <div class="form-text">Enter expiry date in MM/YY format</div>
+                        <?= showErrors($errors['card-expiry']) ?>
+                    </div>
 
-<script>
-function formatExpiry(input) {
-    let value = input.value.replace(/\D/g, '');
-    if (value.length >= 2) {
-        value = value.substring(0, 2) + '/' + value.substring(2);
-    }
-    input.value = value;
-}
-</script>
+                    <script>
+                        function formatExpiry(input) {
+                            let value = input.value.replace(/\D/g, '');
+                            if (value.length >= 2) {
+                                value = value.substring(0, 2) + '/' + value.substring(2);
+                            }
+                            input.value = value;
+                        }
+                    </script>
 
 
                     <div class="mb-3">

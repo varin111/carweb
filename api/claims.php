@@ -10,9 +10,9 @@ $table = 'claims';
 $primaryKey = 'id';
 
 $url_actions = [
-    'approved' => SITE_URL . 'admin/claims/action.php?action=approved&id=',
-    'rejected' => SITE_URL . 'admin/claims/action.php?action=rejected&id=',
-    'delete' => SITE_URL . 'admin/claims/index.php?action=delete&id=',
+    'approved' => SITE_URL . '/admin/claims/action.php?action=approved&id=',
+    'rejected' => SITE_URL . '/admin/claims/action.php?action=rejected&id=',
+    'delete' => SITE_URL . '/admin/claims/index.php?action=delete&id=',
 ];
 
 $columns = array(

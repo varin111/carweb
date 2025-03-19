@@ -138,7 +138,7 @@ require_once __DIR__ . '/config/front/header.php';
             <div class="row gy-4">
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/hama.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>/assets/images/team/hama.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
                             <h4>Muhammed Ahmed</h4>
                             <span>Founder & CEO</span>
@@ -154,7 +154,7 @@ require_once __DIR__ . '/config/front/header.php';
                 </div>
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/nur.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>/assets/images/team/nur.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
                             <h4>Nuralhuda Nabil</h4>
                             <span>Head of Customer Relations</span>
@@ -170,7 +170,7 @@ require_once __DIR__ . '/config/front/header.php';
                 </div>
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/varinn.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>/assets/images/team/varinn.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
                             <h4>Varin Kamil</h4>
                             <span>Underwriting Manager</span>
@@ -186,7 +186,7 @@ require_once __DIR__ . '/config/front/header.php';
                 </div>
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
                     <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="<?= SITE_URL ?>assets/images/team/lana.jpg" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="<?= SITE_URL ?>/assets/images/team/lana.jpg" class="img-fluid" alt=""></div>
                         <div class="member-info">
                             <h4>Lana Hameed</h4>
                             <span> Senior Claims Specialist</span>
@@ -251,7 +251,7 @@ require_once __DIR__ . '/config/front/header.php';
     <div>
         <div id="chat-icon">
             <span>
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;width: 20px;" xml:space="preserve" >
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;width: 20px;" xml:space="preserve">
                     <g>
                         <path d="M432 0H80C35.817 0 0 35.817 0 80v256c0 44.183 35.817 80 80 80h313.44l91.2 91.36A15.999 15.999 0 0 0 496 512c8.837 0 16-7.163 16-16V80c0-44.183-35.817-80-80-80zm48 457.44-68.64-68.8A15.997 15.997 0 0 0 400 384H80c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48v377.44z" fill="#fff" opacity="1" data-original="#fff"></path>
                         <circle cx="256" cy="208" r="32" fill="#fff" opacity="1" data-original="#fff"></circle>

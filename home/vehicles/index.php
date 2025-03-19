@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/front/header.php';
 if (empty(getSession('user_id')) && empty($_COOKIE['user_login'])) {
-    header("Location: " . SITE_URL . "login.php");
+    header("Location: " . SITE_URL . "/login.php");
     exit;
 }
 $params = getUrlParams($_SERVER['REQUEST_URI']);
@@ -72,7 +72,7 @@ $totalPages = ceil($totalVehicles / $limit);
                         <img src="<?= getImagePath(image: $vehicle['image_path'], path: '/assets/uploads/vehicles/') ?>" class="img-responsive-1x2 mb-3 rounded-3 object-cover" width="100%" height="250px" alt="<?= $vehicle['make'] ?>">
                         <div class="px-3 pb-3 text-truncate">
                             <a
-                                href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>"
+                                href="<?= SITE_URL ?>/home/vehicles/view.php?id=<?= $vehicle['id'] ?>"
                                 class="fs-2 text-dark text-decoration-none fw-bold">
                                 <?= $vehicle['year'] ?> - <?= $vehicle['make'] ?> - <?= $vehicle['model'] ?>
                             </a>
@@ -89,17 +89,17 @@ $totalPages = ceil($totalVehicles / $limit);
                                 <strong>Created at: <?= format_date($vehicle['created_at']) ?></strong>
                             </p>
                             <?php if ($vehicle['balance'] != null && $vehicle['balance'] > 0) : ?>
-                                <a href="<?= SITE_URL ?>home/claims/index.php?vehicle_id=<?= $vehicle['id'] ?>" class="btn btn-primary btn-sm p-1 px-3 rounded-2 mb-2 w-full">
+                                <a href="<?= SITE_URL ?>/home/claims/index.php?vehicle_id=<?= $vehicle['id'] ?>" class="btn btn-primary btn-sm p-1 px-3 rounded-2 mb-2 w-full">
                                     <i class="fas fa-clipboard-list me-1"></i>
                                     Claims
                                 </a>
                             <?php endif; ?>
                             <div class="d-flex justify-content-between gap-1">
-                                <a href="<?= SITE_URL ?>home/vehicles/view.php?id=<?= $vehicle['id'] ?>" class="btn btn-primary btn-sm p-1 px-3 rounded-2 flex-grow-1">
+                                <a href="<?= SITE_URL ?>/home/vehicles/view.php?id=<?= $vehicle['id'] ?>" class="btn btn-primary btn-sm p-1 px-3 rounded-2 flex-grow-1">
                                     <i class="fas fa-eye me-1"></i>
                                     View
                                 </a>
-                                <a href="<?= SITE_URL ?>home/vehicles/action.php?action=update&id=<?= $vehicle['id'] ?>" class="btn btn-primary btn-sm p-1 px-3 rounded-2 flex-grow-1">
+                                <a href="<?= SITE_URL ?>/home/vehicles/action.php?action=update&id=<?= $vehicle['id'] ?>" class="btn btn-primary btn-sm p-1 px-3 rounded-2 flex-grow-1">
                                     <i class="fas fa-edit me-1"></i>
                                     Edit
                                 </a>
