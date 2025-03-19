@@ -68,7 +68,7 @@
 <?php endif; ?>
 
 <script>
-    const apiKey = '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'; // Replace with your actual API key
+    const apiKey = ''; // Replace with your actual API key
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
     const chatIcon = document.getElementById("chat-icon");
