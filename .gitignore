@@ -1,2 +1,4 @@
 /vendor
 /assets/uploads
+config.bat
+node_modules
